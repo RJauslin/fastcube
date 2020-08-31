@@ -31,19 +31,19 @@ ReducedMatrix <- function(B){
   ind_col  <- (1:ncol(B))
   ind_row  <- (1:nrow(B))
   # loop while any colsums equal to 0 exists
-  test <- try({any(sums_col < abs(EPS))})
+  test <- try({any(abs(sums_col) < EPS)})
   if(class(test) == "try-error"){
     print(B)
   }
-  while(any(sums_col < abs(EPS))){
+  while(any(abs(sums_col) < EPS)){
     # extract columns with sum larger than 0
-    col <- which(sums_col > abs(EPS))
+    col <- which(abs(sums_col) > EPS)
     if(length(col) <= 1){ break }
     BB      <- BB[,col]
     ind_col <- ind_col[col]
     # extract rows with sum larger than 0
     sums_row <- rowSums(BB)
-    row      <- which(sums_row > abs(EPS))
+    row      <- which(abs(sums_row) > EPS)
     if(length(row) <= 1){ break }
     BB       <- BB[row,]
     ind_row  <- ind_row[row]

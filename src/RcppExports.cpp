@@ -76,6 +76,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// systematicDesign
+Rcpp::List systematicDesign(arma::vec pik);
+RcppExport SEXP _fastcube_systematicDesign(SEXP pikSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
+    rcpp_result_gen = Rcpp::wrap(systematicDesign(pik));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
@@ -84,6 +95,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_onestep", (DL_FUNC) &_fastcube_onestep, 3},
     {"_fastcube_flightphase_arma", (DL_FUNC) &_fastcube_flightphase_arma, 3},
     {"_fastcube_reduxArma", (DL_FUNC) &_fastcube_reduxArma, 1},
+    {"_fastcube_systematicDesign", (DL_FUNC) &_fastcube_systematicDesign, 1},
     {NULL, NULL, 0}
 };
 

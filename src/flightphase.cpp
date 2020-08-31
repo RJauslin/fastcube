@@ -328,28 +328,48 @@ arma::vec flightphase_arma(arma::mat X,
   while(i.size() > 0){
     std::cout << i.size() << std::endl;
 
-    rrefArma(B);
 
-    if(i.size() < (J+1)){
-      bool test = isEye(B);
-      if(test == true){
-        break;
-      }
-    }
+    // if(i.size() < (J+1)){
+    //   arma::mat kern = arma::null(B);
+    //   if(kern.empty()){
+    //     break;
+    //   }
+    // }
+
+    // rrefArma(B);
     if(redux == true){
       Rcpp::List L = reduxArma(B.t());
+
       arma::mat B_tmp = L[0];
       arma::uvec ind_row = L[2];
-      pik.elem(i.elem(ind_row)) = osffphase(pik.elem(i.elem(ind_row)),B_tmp.t());
+
+      B_tmp = B_tmp.t();
+
+      if(i.size() < (J+1)){
+        arma::mat kern = arma::null(B_tmp);
+        if(kern.empty()){
+          break;
+        }
+      }
+      rrefArma(B_tmp);
+      // std::cout << B_tmp << std::endl;
+      pik.elem(i.elem(ind_row)) = osffphase(pik.elem(i.elem(ind_row)),B_tmp);
 
     }else{
+      if(i.size() < (J+1)){
+        arma::mat kern = arma::null(B);
+        if(kern.empty()){
+          break;
+        }
+      }
+      rrefArma(B);
       pik.elem(i) = osffphase(pik.elem(i),B);
     }
 
 
     i = arma::find(pik > EPS && pik < (1-EPS), J+1, "first");
     B = (A.rows(i)).t();
-
+    // std::cout << (A.t()*pik).t() << std::endl;
   }
   return(pik);
 }
@@ -372,13 +392,30 @@ t(A)%*%pik
 
 
 
-system.time(pikstar <- fastflightcubeSPOT(X, pik))
-t(A)%*%pikstar
+
+
+rm(list = ls())
+# set.seed(1)
+eps <- 1e-13
+library(Matrix)
+N <- 500
+Pik <- matrix(c(sampling::inclusionprobabilities(runif(N),50),
+                sampling::inclusionprobabilities(runif(N),100),
+                sampling::inclusionprobabilities(runif(N),150)),ncol = 3)
+X <- PM(Pik)$PM
+pik <- PM(Pik)$P
+image(as(X,"sparseMatrix"))
+# rrefArma(X)
+dim(X)
+order = 2
+EPS = 1e-11
+A=X/pik
+system.time(test <- flightphase_arma(X,pik,redux = TRUE))
+system.time(test1 <- ReducedSamplecube(X,pik,t = 3))
+t(A)%*%test1
 t(A)%*%pik
 
-system.time(test <- IneqCube::flightphase(pik,X))
-system.time(test <- BalancedSampling::flightphase(pik,X))
-system.time(test <- fast.flight.cube(X,pik))
+
 
 
 

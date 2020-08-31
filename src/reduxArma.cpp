@@ -29,23 +29,24 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 Rcpp::List reduxArma(arma::mat B) {
 
-  double eps = 1e-12;
+  double eps = 1e-8;
 
-  arma::mat B_out = B;
+
   arma::rowvec sums = sum(B,0);
   arma::colvec sums_row = sum(B,1);
+  arma::mat B_out = B;
 
   arma::uvec ind_col = arma::regspace<arma::uvec>(0,1,B_out.n_cols-1);
   arma::uvec ind_row = arma::regspace<arma::uvec>(0,1,B_out.n_rows-1);
 
-  int step = 1;
-  while(any(sums < eps && sums > -eps)){ // loop while we find some colSums equal to 0
+  // int step = 1;
+  while(any(abs(sums) < eps)){ // loop while we find some colSums equal to 0
 
     // std::cout << step << std::endl << std::endl;
 
 
     // extract the column that have sums greater than 0
-    arma::uvec coltmp = arma::find(sums > eps || sums < -eps);
+    arma::uvec coltmp = arma::find(abs(sums) > eps);
     if(coltmp.size() <= 1){
       break;
     }
@@ -54,7 +55,7 @@ Rcpp::List reduxArma(arma::mat B) {
 
     // calculate rowSums that have sums greater than 0
     sums_row = sum(B_out,1);
-    arma::uvec rowtmp = arma::find(sums_row > eps || sums_row < -eps);
+    arma::uvec rowtmp = arma::find(abs(sums_row) > eps);
     B_out = B_out.rows(rowtmp);
     ind_row = ind_row.elem(rowtmp); // keep rignt index of B
 
@@ -95,10 +96,10 @@ Rcpp::List reduxArma(arma::mat B) {
     }
 
     sums = arma::sum(B_out,0); // update colSums
-    step = step + 1;
-    if(step > 100){
-      break;
-    }
+    // step = step + 1;
+    // if(step > 100){
+    //   break;
+    // }
   }
 
     return Rcpp::List::create(Rcpp::Named("B") = B_out,
@@ -129,20 +130,17 @@ A <-  X/pik
 B <- A[1:(p + 1), ]
 
 tmp <- reduxArma(B)
-tmp2 <- reduxB(B)
-B_redux <- tmp$B
-B_redux[1:10,1:20]
-B[tmp$ind_row[1:10],tmp$ind_col[1:20]]
+tmp2 <- ReducedMatrix(B)
 
-
-
+tmp
+tmp2
 
 rm(list = ls())
 set.seed(1)
 B <- as.matrix(rsparsematrix(200,200,density = 0.001))
 image(as(B,"sparseMatrix"))
 rrefArma(B)
-
+image(as(B,"sparseMatrix"))
 system.time(test1 <- reduxArma(B))
 dim(test1$B)
 system.time(test2 <- ReducedMatrix(B))
@@ -184,10 +182,10 @@ order = 2
 EPS = 1e-11
 
 system.time(test1 <- reduxArma(X))
-system.time(test2 <- reduxB(X))
+system.time(test2 <- ReducedMatrix(X))
 
-
-
+dim(test1$B)
+dim(test2$B)
 
 rm(list = ls())
 set.seed(1)
@@ -195,7 +193,7 @@ B <- as.matrix(rsparsematrix(4000,3000,density = 0.0001))
 image(as(B,"sparseMatrix"))
 system.time(test1 <- reduxArma(B))
 dim(test1$B)
-system.time(test2 <- reduxB(B))
+system.time(test2 <- ReducedMatrix(B))
 dim(test2$B)
 all(as.vector(test1$ind_row) == as.vector(test2$ind_row))
 */

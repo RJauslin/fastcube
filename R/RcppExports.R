@@ -120,3 +120,20 @@ reduxArma <- function(B) {
     .Call(`_fastcube_reduxArma`, B)
 }
 
+#' @encoding UTF-8
+#' @title systematic desgin
+#'
+#' @description
+#'
+#' Find all possible systematic sample from a vector of inclusion probabilities \code{pik}.
+#'
+#' @param pik vector of inclusion probabilities..
+#'
+#' @return A matrix of size at most N x N with elements equal to 0 or 1. The value 1 indicates that the uni is selected while the value 0 is for non-chosen unit.
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#' @export
+systematicDesign <- function(pik) {
+    .Call(`_fastcube_systematicDesign`, pik)
+}
+

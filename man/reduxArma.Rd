@@ -17,7 +17,7 @@ This function reduces the size of the matrix by removing alternatively columns a
 
 In case where the number of auxiliary varibale is great (p very large), even if we use the fast implementation proposed by
 (Chauvet and Tillé 2005) the problem is time consuming. If we have the chance that the matrix is strongly sparse,
-we can then use the function to reduce the size of the matrix B by using this method. 
+we can then use the function to reduce the size of the matrix B by using this method.
 
 If the matrix is dense or every column have sum greater than 0, then nothing is changed.
 }
