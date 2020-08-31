@@ -28,15 +28,6 @@
 #' @seealso \code{\link{SystematicDesign}}
 #'
 #'
-#' @examples
-#' ## Temporal inclusion probabilities with 3 waves and 4 units ##
-#' pik <- matrix(c(0.6,0.3,0.3,
-#'                 0.2,0.4,0.9,
-#'                 0.3,0.2,0.5,
-#'                 0.9,0.1,0.3), ncol = 3, byrow = TRUE)
-#' ## ORFS method ##
-#' Orfs(pik, EPS = 1e-6)
-#'
 #' @export
 PM <- function(pik, EPS = 1e-11, comment = TRUE)
 {

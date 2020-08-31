@@ -25,22 +25,6 @@ In case where the number of auxiliary variables is great (i.e. p very large), ev
 This function reduces considerably the execution time when the matrix of auxiliary variables \code{X} contains lot of 0s.
 It considers a reduced matrix \code{X} by removing columns and rows that sum to 0 in the flight phase of the method (see  \code{\link{ReducedMatrix}} and \code{\link{ReducedFlightphase}}).
 }
-\examples{
-set.seed(1)
-## Matrix of 8 auxilary variables and 10 units with lot of 0s ##
-
-## Inclusion probabilities with 10 units ##
-pik <- sampling::inclusionprobabilities(runif(40),10)
-X   <- matrix(sample(c(0,0,0,1),240,replace=TRUE), nrow = 40, ncol =  8)
-X <- cbind(pik,X)
-## Cube method ##
-s <- ReducedSamplecube(X, pik)
-# s <- sampling::samplecube(X,pik)
-s
-sum(pik)
-sum(s)
-
-}
 \references{
 Chauvet, G. and Tille, Y. (2006). A fast algorithm of balanced sampling. Computational Statistics, 21/1:53-62
 }

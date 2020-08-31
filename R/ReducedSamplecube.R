@@ -49,21 +49,6 @@ onestep <- function(B,pik,EPS){
 #' @seealso \code{\link[sampling:samplecube]{samplecube}}, \code{\link[sampling:landingcube]{landingcube}}, \code{\link{ReducedFlightphase}}, \code{\link{ReducedMatrix}}
 #'
 #'
-#' @examples
-#' set.seed(1)
-#' ## Matrix of 8 auxilary variables and 10 units with lot of 0s ##
-#'
-#' ## Inclusion probabilities with 10 units ##
-#' pik <- sampling::inclusionprobabilities(runif(40),10)
-#' X   <- matrix(sample(c(0,0,0,1),240,replace=TRUE), nrow = 40, ncol =  8)
-#' X <- cbind(pik,X)
-#' ## Cube method ##
-#' s <- ReducedSamplecube(X, pik)
-#' # s <- sampling::samplecube(X,pik)
-#' s
-#' sum(pik)
-#' sum(s)
-#'
 #' @export
 ReducedSamplecube <- function(X, pik, redux = TRUE, t){
 

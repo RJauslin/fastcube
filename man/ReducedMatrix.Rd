@@ -21,12 +21,6 @@ Returns a list including:
 \description{
 Reduce a matrix by removing alternatively columns and rows that sum to 0. If the matrix is dense or if every columns sums to more than 0, then nothing is changed.
 }
-\examples{
-set.seed(1)
-B  <- matrix(sample(c(0,0,0,1),80,replace=TRUE), nrow = 8, ncol =  10)
-ReducedMatrix(B)
-
-}
 \author{
 Raphael Jauslin \email{raphael.jauslin@unine.ch}
 Esther Eustache \email{esther.eustache@unine.ch}

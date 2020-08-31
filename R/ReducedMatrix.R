@@ -17,11 +17,6 @@
 #' Esther Eustache \email{esther.eustache@@unine.ch}
 #'
 #'
-#' @examples
-#' set.seed(1)
-#' B  <- matrix(sample(c(0,0,0,1),80,replace=TRUE), nrow = 8, ncol =  10)
-#' ReducedMatrix(B)
-#'
 #' @export
 ReducedMatrix <- function(B){
   EPS      <- 1e-8

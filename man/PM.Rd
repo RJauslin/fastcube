@@ -23,16 +23,6 @@ This is the update of \code{pik} and contains only 0s and 1s that indicates if a
 Select temporal samples with fixed size at each wave.
 It provides optimal time rotation of the selected samples using the systematic sampling method.
 }
-\examples{
-## Temporal inclusion probabilities with 3 waves and 4 units ##
-pik <- matrix(c(0.6,0.3,0.3,
-                0.2,0.4,0.9,
-                0.3,0.2,0.5,
-                0.9,0.1,0.3), ncol = 3, byrow = TRUE)
-## ORFS method ##
-Orfs(pik, EPS = 1e-6)
-
-}
 \references{
 Quenouille, M. H. (1949). Approximate Tests of Correlation in time-Series. Royal Statistical Society, Series B Vol. 11, No. 1 (1949), pp. 68-84.
 }
