@@ -1,0 +1,150 @@
+\documentclass[12pt,english]{article}
+\input{./header/header}
+
+\begin{document}
+
+\maketitle
+
+<<setup, include=FALSE>>=
+devtools::load_all(".")
+library(ggplot2)
+library(sampling)
+library(gridExtra)
+library(ggvoronoi)
+library(grid)
+library(lattice)
+library(ggplot2)
+library(ggrepel)
+library(scico)
+
+library(kableExtra)
+library(magrittr)
+library(plyr)
+
+# theme plot of the paper
+theme_wave <- function(...) {
+  theme_minimal() +
+    theme(
+      text = element_text(family="sans",color = "black",size = 9),
+      panel.spacing = unit(2, "lines"),
+      # title
+      plot.title = element_text(hjust = 0.5,size = 9),
+      # axes
+      axis.line=element_blank(),
+      axis.ticks=element_blank(),
+      # legend
+      legend.position="bottom",
+      legend.title = element_text(size = 9,vjust = +1.0),
+      legend.key.size = unit(0.3, "cm"),
+      legend.key.width = unit(0.7,"cm") ,
+      # background colors
+      panel.background=element_blank(),
+      panel.border=element_rect(colour = "black",fill = "transparent"),
+      panel.grid.major=element_blank(),
+      panel.grid.minor=element_blank(),
+      # keep edge black facet_wrap
+      # strip.background = element_rect(fill="white"),
+      strip.text =element_text(color = "black",size = 8)
+      )
+}
+
+
+knit_hooks$set(document = function(x) {sub('\\usepackage[]{color}', '\\usepackage{xcolor}', x, fixed = TRUE)})
+opts_chunk$set(fig.path='figure/image-', cache.path='cache/latex-')
+options(tikzDocumentDeclaration = "\\documentclass{article}")
+
+pathresults <- file.path(getwd(),"results/",fsep ="/")
+if(!dir.exists(pathresults)){
+   dir.create(pathresults)
+}
+
+
+thm = knit_theme$get("fine_blue")  # parse the theme to a list
+knit_theme$set(thm)
+
+@
+
+
+\begin{abstract}
+
+
+\textbf{Key words}: optimal design, spread sampling, stratification
+\end{abstract}
+\newpage
+
+%-----------------------------------------------------------------------------------
+% Introduction
+%-----------------------------------------------------------------------------------
+
+\section{Introduction}
+
+%-----------------------------------------------------------------------------------
+% Notation
+%-----------------------------------------------------------------------------------
+
+\section{Notation}
+
+
+Consider a finite population $U$ of size $N$ whose units can be defined by labels $k\in\{1,2,\dots,N\}$. Let $\mathcal{S} = \{s | s\subset U\}$ be the set of all possible samples. A sampling design is defined by a probability distribution $p(.)$ on $\mathcal{S}$ such that
+
+$$
+p(s) \geq 0 \text{ for all } s\in \mathcal{S} \text{ and }\sum_{ s\in \mathcal{S}}p(s) = 1.
+$$
+
+A random sample $S$ is a random vector that maps elements of $\mathcal{S}$ to an $N$ vector of 0 or 1 such that $\textrm{P}(S = s) =
+p(s)$. Define $a_k(S)$, for $k = 1,\dots,N$:
+
+$$
+\aaa_k =
+\left\{\begin{array}{lll} 1 & \text{ if } k\in S\\ 0 & \text{ otherwise} . \end{array} \right.
+$$
+
+Then a sample can be denoted by means of a vector notation:
+$
+ \aaag^\top = (\aaa_1,\aaa_2,\dots,\aaa_N).
+$ For each unit of the population, the inclusion probability $0\leq\pi_k\leq 1$ is defined as the probability that unit $k$ is selected into sample $S$:
+\begin{equation*}\label{eq:pik}
+ \pi_k = \textrm{P}(k \in S) = \textrm{E}(\aaa_k) =  \sum_{s\in S | k \in s} p(s), \text{ for all } k\in U.
+\end{equation*}
+
+Let $\pig^\top=(\pi_1,\dots,\pi_N)$ be the vector of inclusion probabilities. Then, $\textrm{E}({\aaag})=\pig.$ Let also $\pi_{k\ell}$ be the probability of selecting the units $k$ and $\ell$ together in the sample, with $\pi_{kk} = \pi_k$. The matrix of second-order inclusion probabilities is given by $\Pi = \E(\aaag\aaag^\top)$. In many applications, inclusion probabilities are such that samples have a fixed size $n$. Let the set of all samples that have fixed size equal to $n$ be defined by
+ \begin{equation*}\label{eq:sn} \mathcal{S}_n = \left\{ \aaag\in \{0,1\}^N ~~\bigg|~~ \sum_{k
+= 1}^N \aaa_k = n \right\} .
+ \end{equation*}
+
+The sample is generally selected with the aim of estimating some population parameters. Let $y_k$ denote a real number associated with unit $k\in U$, usually called the variable of interest. For example, the total
+$$
+Y=\sum_{k\in U} y_k
+$$
+can be estimated by using the classical Horvitz-Thompson estimator of the total defined by
+\begin{equation}\label{eq:HT}
+\widehat{Y}_{HT} = \sum_{k\in U} \frac{y_k a_k}{\pi_k}.
+\end{equation}
+
+
+Usually, some auxiliary information $\xb_k^\top = (x_{k1},x_{k2},\dots,x_{kq}) \in\mathbb{R}^q$  regarding the population units is available.
+In the particular case of spatial sampling, a set of spatial coordinates  $\zb_k^\top = (z_{k1},z_{k2},\dots,z_{kp}) \in \mathbb{R}^p$ is supposed to be available, where $p$ is the dimension of the considered space. A sampling design is said to be balanced on the auxiliary variables $x_k$ if and only if it satisfies the balancing equations
+\begin{equation*}\label{eq:balance}
+  \widehat{\Xb} = \sum_{k\in S} \frac{\xb_k}{\pi_k} = \sum_{k\in U} \xb_k = \Xb.
+\end{equation*}
+
+
+
+%-----------------------------------------------------------------------------------
+%	Systematic sampling
+%-----------------------------------------------------------------------------------
+
+%-----------------------------------------------------------------------------------
+%	Simulation
+%-----------------------------------------------------------------------------------
+
+\section{Simulation}
+
+%-----------------------------------------------------------------------------------
+%	Discussion
+%-----------------------------------------------------------------------------------
+
+\section{Discussion}
+
+
+\end{document}

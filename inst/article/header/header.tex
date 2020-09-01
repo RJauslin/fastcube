@@ -1,0 +1,161 @@
+\usepackage[a4paper]{geometry}
+% \usepackage{fullpage}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{graphicx}
+
+% \usepackage{mathptmx}
+\usepackage{alphalph}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{float}
+
+\usepackage[colorlinks = true,linkcolor = blue, citecolor = blue]{hyperref}
+\usepackage{booktabs}
+\usepackage{amssymb,amsmath}%,natbib,rotating,mfpic} %amsmath}
+
+
+% \usepackage{layouts}
+
+\def\aaa{a}
+\def\aaag{\textbf{a}}
+\def\R{\mathbb{R}}
+\def\N{\mathbb{N}}
+\def\tb{{\bf t}}
+\def\zerog{{\bf 0}}
+\def\trace{{\rm trace}}
+\def\rang{{\rm rang}}
+\def\Gammag{\mathbf{\Gamma}}
+\def\Deltag{\mathbf{\Delta}}
+\def\Thetag{\mathbf{\Theta}}
+\def\Lambdag{\mathbf{\Lambda}}
+\def\Xig{\mathbf{\Xi}}
+\def\Pig{\mathbf{\Pi}}
+\def\Sigmag{\mathbf{\Sigma}}
+\def\Pig{\mathbf{\Pib}}
+\def\Phig{\mathbf{\Phi}} %
+\def\Psig{\mathbf{\Psi}} %}}
+\def\Omegag{\mathbf{\Omega}} %}}
+\def\Upsilong{\mathbf{\Upsilon}} %}}
+
+
+\def\Var{{\rm var}}
+\def\Min{{\rm Min}}
+\def\Cov{{\rm cov}}
+\def\Corr{{\rm corr}}
+\def\Im{{\rm Im}}
+\def\Ker{{\rm Ker}}
+\def\SC{{\rm SC}}
+\def\CM{{\rm CM}}
+\def\diag{{\rm diag}}
+\def\E{{\rm E}}
+\def\Pr{{\rm Pr}}
+\def\Vb{{\bf V}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\alphag{\boldsymbol{\alpha}} %$\alpha$
+\def\betag{\boldsymbol{\beta}} %$\beta$
+\def\gammag{\boldsymbol{\gamma}} %$\gamma$
+\def\deltag{\boldsymbol{\delta}} %$\delta$
+\def\epsilong{\boldsymbol{\epsilon}} %$\epsilon$
+\def\varepsilong{\boldsymbol{\varepsilon}} %$\varepsilon$
+\def\etag{\boldsymbol{\eta}} %$\eta$
+\def\thetag{\boldsymbol{\theta}} %$\theta$
+\def\iotag{\boldsymbol{\iota}} %$\iota$
+\def\kappag{\boldsymbol{\kappa}} %$\kappa$
+\def\lambdag{\boldsymbol{\lambda}} %$\lambda$
+\def\mug{\boldsymbol{\mu}} %$\nu$
+\def\nug{\boldsymbol{\nu}} %$\mu$
+\def\xig{\boldsymbol{\xi}} %$\xi$
+\def\pig{\boldsymbol{\pi}} %$\pi$
+\def\rhog{\boldsymbol{\rho}} %$\rho$
+\def\sigmag{\boldsymbol{\sigma}} %$\sigma$
+\def\taug{\boldsymbol{\tau}} %$\tau$
+\def\upsilong{\boldsymbol{\upsilon}} %$\upsilon$
+\def\phig{\boldsymbol{\phi}} %$\phi$
+\def\chig{\boldsymbol{\chi}} %$\chi$
+\def\psig{\boldsymbol{\psi}} %$\psi$
+\def\omegag{\boldsymbol{\omega}} %$\omega$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\tb{{\bf t}}
+\def\zerog{{\bf 0}}
+\def\trace{{\rm trace}}
+\def\rang{{\rm rang}}
+\def\Gammag{\mathbf{\Gamma}}
+\def\Deltag{\mathbf{\Delta}}
+%\def\Thetag{\mathbf{\Theta}}
+\def\Lambdag{\mathbf{\Lambda}}
+%\def\Xig{\mathbf{\Xi}}
+%\def\Pig{\mathbf{\Pi}}
+\def\Sigmag{\mathbf{\Sigma}}
+%\def\Pig{\mathbf{\Pib}}
+%\def\Phig{\mathbf{\Phi}} %
+%\def\Psig{\mathbf{\Psi}} %}}
+\def\Omegag{\mathbf{\Omega}} %}}
+
+
+\def\Xbu{{\bf X}_1}
+\def\Xbd{{\bf X}_2}
+\def\Xbt{{\bf X}_3}
+%\def\Yb{{\bf Y}}
+\def\Db{{\bf D}}
+\def\Eb{{\bf E}}
+\def\Fb{{\bf F}}
+\def\Tb{{\bf T}}
+
+\def\nb{{\bf n}}
+\def\ab{{\bf a}}
+\def\sb{{\bf s}}
+\def\eb{{\bf e}}
+\def\gb{{\bf g}}
+\def\rb{{\bf r}}
+\def\cg{{\bf c}}
+
+\def\yb{{\bf y}}
+\def\zb{{\bf z}}
+\def\bb{{\bf b}}
+\def\cb{{\bf c}}
+\def\fb{{\bf f}}
+\def\ub{{\bf u}}
+\def\xb{{\bf x}}
+\def\vb{{\bf v}}
+\def\wb{{\bf w}}
+\def\Ab{{\bf A}}
+\def\Bb{{\bf B}}
+\def\Cb{{\bf C}}
+\def\Mb{{\bf M}}
+\def\Nb{{\bf N}}
+\def\Cg{{\bf C}}
+\def\Ib{{\bf I}}
+\def\Xb{{\bf X}}
+\def\Zb{{\bf Z}}
+\def\Pb{{\bf P}}
+\def\Db{{\bf D}}
+\def\Rb{{\bf R}}
+\def\Qb{{\bf Q}}
+\def\Sb{{\bf S}}
+\def\Ub{{\bf U}}
+\def\Wb{{\bf W}}
+\def\0b{{\bf 0}}
+\def\1b{{\bf 1}}
+
+\newtheorem{exmpl}{Example}[section]
+\newtheorem{defn}{Definition}
+
+\newcommand{\myalphafoot}
+{
+\renewcommand{\thefootnote}{\alph{footnote}}
+}
+
+\title{fast cube implementation}
+\myalphafoot
+\author{\myalphafoot Rapha\"el Jauslin\footnotemark[1]~, Esther Eustache\footnotemark[1]~ and Yves Till\'e\footnotemark[1]}
+\date{}
+\footnotetext[1]{Institute of statistics, University of Neuchatel, Av. de Bellevaux 51, 2000 Neuchatel, Switzerland\\ (E-mail: raphael.jauslin@unine.ch)}

@@ -3,6 +3,8 @@
 export(PM)
 export(ReducedMatrix)
 export(ReducedSamplecube)
+export(fastcube)
+export(findB)
 export(flightphase_arma)
 export(isEye)
 export(onestep)
