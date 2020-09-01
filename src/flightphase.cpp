@@ -326,7 +326,7 @@ arma::vec flightphase_arma(arma::mat X,
   arma::mat B = (A.rows(i)).t(); // extract B of A
 
   while(i.size() > 0){
-    std::cout << i.size() << std::endl;
+    // std::cout << i.size() << std::endl;
 
 
     // if(i.size() < (J+1)){
