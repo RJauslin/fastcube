@@ -7,14 +7,13 @@
 using namespace Rcpp;
 
 // disj
-arma::umat disj(arma::uvec strata, int ncat);
-RcppExport SEXP _fastcube_disj(SEXP strataSEXP, SEXP ncatSEXP) {
+arma::umat disj(arma::uvec strata);
+RcppExport SEXP _fastcube_disj(SEXP strataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::uvec >::type strata(strataSEXP);
-    Rcpp::traits::input_parameter< int >::type ncat(ncatSEXP);
-    rcpp_result_gen = Rcpp::wrap(disj(strata, ncat));
+    rcpp_result_gen = Rcpp::wrap(disj(strata));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -123,7 +122,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 2},
+    {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 1},
     {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},

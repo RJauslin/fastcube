@@ -70,21 +70,28 @@ onestep <- function(B,pik,EPS){
 #'
 #' Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
 #'                     cat2 = rep(1:50,each = N/50),
-#'                     cat2 = rep(1:200,each = N/200)))
+#'                     cat2 = rep(1:100,each = N/100)))
 #'
 #'
 #' p <- 30
 #' X <- matrix(rnorm(N*p),ncol = 30)
 #' pik <- rep(300/N,N)
-#' system.time(s <- fastcube(X,Xcat,pik))
+#' system.time(s1 <- fastcube(X,Xcat,pik))
+#' A <- X/pik
+#' t(A)%*%s1
+#' t(A)%*%pik
 #'
-#' Xcat_tmp <- as.matrix(do.call(cbind,apply(Xcat,MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
+#'
+#' Xcat_tmp <- disjMatrix(Xcat)
 #' Xred <- as.matrix(cbind(X,Xcat_tmp))
-#' system.time(s <- ReducedSamplecube(Xred,pik,t = 1000))
+#' system.time(s2 <- ReducedSamplecube(Xred,pik,t = 1000))
 #'
 #' A <- Xred/pik
-#' t(A)%*%s
+#' t(A)%*%s2
+#' t(A)%*%s1
 #' t(A)%*%pik
+#'
+#'
 #' }
 fastcube <- function(X, Xcat, pik){
 
@@ -99,7 +106,7 @@ fastcube <- function(X, Xcat, pik){
   A = X/pik
   p = ncol(X)
   # ncat <- sum(apply(Xcat,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
-  ncat <- sum(ncat(Xcat))
+  n_all_cat <- sum(ncat(Xcat))
 
 
   ##----------------------------------------------------------------
@@ -138,14 +145,15 @@ fastcube <- function(X, Xcat, pik){
     ##  Depending if we have enough row
     ##-----------------------------------
 
-    if(i_size <= p + ncat){
+    if(i_size <= p + n_all_cat){
 
-      if(ncol(as.matrix(Xcat[i,])) == 1){
-        Xdev <- model.matrix(~as.factor(as.matrix(Xcat[i,]))-1)
-      }else{
-        Xdev <- as.matrix(do.call(cbind,apply(as.matrix(Xcat[i,]),MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
-      }
+      # if(ncol(as.matrix(Xcat[i,])) == 1){
+      #   Xdev <- model.matrix(~as.factor(as.matrix(Xcat[i,]))-1)
+      # }else{
+      #   Xdev <- as.matrix(do.call(cbind,apply(as.matrix(Xcat[i,]),MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
+      # }
 
+      Xdev <- disjMatrix(Xcat[i,])
       B <- cbind(A[i,],Xdev)
       if(i_size > EPS){
         kern <- MASS::Null(B)

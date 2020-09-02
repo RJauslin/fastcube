@@ -28,8 +28,8 @@ t(A)%*%pik
 
 rm(list = ls())
 N <- 100000
-strata <- sample(x = 1:1400, size = N, replace = TRUE)
-system.time(M <- disj(strata))
+strata <- sample(x = 1:3400, size = N, replace = TRUE)
+system.time(M <- disj(strata,3400))
 system.time(M <- model.matrix(~as.factor(strata)-1))
 system.time(M <- sampling::disjunctive(strata))
 

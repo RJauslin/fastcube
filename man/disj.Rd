@@ -4,7 +4,7 @@
 \alias{disj}
 \title{disj}
 \usage{
-disj(strata, ncat)
+disj(strata)
 }
 \arguments{
 \item{strata}{vector of integer}

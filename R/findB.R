@@ -36,16 +36,14 @@ findB <- function(X,
 
   while(n_all_cat != n_all_cat_tmp){
     n_all_cat_tmp = n_all_cat
-    p =  pInit  + ncat
+    p =  pInit  + n_all_cat
     Xcat_tmp <- Xcat[1:(p+1),]
     # ncat <- sum(apply(as.matrix(Xcat_tmp),MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
-    ncat <- sum(ncat(Xcat_tmp))
+    n_all_cat <- sum(ncat(Xcat_tmp))
   }
 
   Xcat_tmp <- as.matrix(Xcat_tmp)
-
-
-  Xdev <- disj(Xcat_tmp[,3])
+  Xdev <- disjMatrix(Xcat_tmp)
   # if(ncol(Xcat_tmp) == 1){
   #   if(all(Xcat_tmp[,1] == Xcat_tmp[1,1])){
   #     Xdev <- Xcat_tmp

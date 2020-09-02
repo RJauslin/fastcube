@@ -13,8 +13,8 @@
 #' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 #'
 #' @export
-disj <- function(strata, ncat) {
-    .Call(`_fastcube_disj`, strata, ncat)
+disj <- function(strata) {
+    .Call(`_fastcube_disj`, strata)
 }
 
 #' @title ncat
