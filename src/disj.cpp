@@ -16,23 +16,26 @@
 //'
 //' @export
 // [[Rcpp::export]]
-arma::umat disj(arma::uvec strata) {
+arma::umat disj(arma::uvec strata,int ncat) {
   int N = strata.size();
-  arma::uvec cat = unique(strata);
-  int ncat = cat.size();
+  // arma::uvec cat = arma::unique(strata);
+  // int ncat = cat.size();
 
-  arma::uvec val = arma::regspace<arma::uvec>(0,1,ncat-1); // 0 to unique(strata)
-  arma::uvec strata_tmp = strata;
-  for(arma::uword i = 0;i<ncat;i++){
-    strata_tmp.replace(cat[i],val[i]);
-  }
+  // arma::uvec val = arma::regspace<arma::uvec>(0,1,ncat-1); // 0 to unique(strata)
+  // arma::uvec strata_tmp = strata;
+  // for(arma::uword i = 0;i<ncat;i++){
+  //   strata_tmp.replace(cat[i],val[i]);
+  // }
 
   arma::umat m(N,ncat,arma::fill::zeros);
   for(arma::uword i = 0;i < N;i++){
-    m(i,strata_tmp(i)) = 1;
+    m(i,strata(i)-1) = 1;
   }
   return(m);
 }
+
+
+
 
 
 
@@ -44,14 +47,14 @@ disj(strata)
 rm(list = ls())
 set.seed(1)
 strata <- sample(x = 1:6, size = 50, replace = TRUE)
-system.time(M <- disj(strata))
+system.time(M <- disj(strata,6))
 system.time(M <- model.matrix(~as.factor(strata)-1))
 
 
 rm(list = ls())
 N <- 100000
 strata <- sample(x = 1:400, size = N, replace = TRUE)
-system.time(M <- disj(strata))
+system.time(M <- disj(strata,400))
 system.time(M <- model.matrix(~as.factor(strata)-1))
 system.time(M <- sampling::disjunctive(strata))
 
@@ -131,7 +134,7 @@ arma::umat disjMatrix(arma::umat strata) {
   for(arma::uword i = 0;i < (p-1);i++){
     arma::uvec tmp = strata.col(i);
     arma::umat tmp_mat(N,all_cat(i),arma::fill::zeros);
-    tmp_mat = disj(tmp);
+    tmp_mat = disj(tmp,all_cat(i));
 
     if(i == 0){
       m.cols(0, ind(i)) = tmp_mat;
