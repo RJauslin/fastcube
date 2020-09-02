@@ -3,13 +3,14 @@
 
 
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title
+//' @title disj
 //'
 //' @description
+//'  disjunctive
 //'
-//' @param
+//' @param strata vector of integer
 //'
-//' @return
+//' @return vector
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 //'
@@ -63,13 +64,14 @@ system.time(M <- sampling::disjunctive(strata))
 
 
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title
+//' @title ncat
 //'
 //' @description
+//' number of cat in each column
 //'
-//' @param
+//' @param Xcat Matrix
 //'
-//' @return
+//' @return vector
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 //'
@@ -101,13 +103,14 @@ system.time(test <- ncat(Xcat))
 
 
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title
+//' @title disjMatrix
 //'
 //' @description
+//' disj on each column
 //'
-//' @param
+//' @param starta a Matrix
 //'
-//' @return
+//' @return a matrix
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 //'

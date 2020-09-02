@@ -2,15 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{disj}
 \alias{disj}
-\title{}
+\title{disj}
 \usage{
 disj(strata)
 }
+\arguments{
+\item{strata}{vector of integer}
+}
 \value{
-
+vector
 }
 \description{
-
+disjunctive
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}

@@ -56,33 +56,7 @@ onestep <- function(B,pik,EPS){
 #'
 #' @export
 #' @examples
-#'
-#'
-#' #' rm(list = ls())
-#' data(swissmunicipalities)
-#' swiss=swissmunicipalities
-#' X=cbind(swiss$HApoly,
-#'         swiss$Surfacesbois,
-#'         swiss$P00BMTOT,
-#'         swiss$P00BWTOT,
-#'         swiss$POPTOT,
-#'         swiss$Pop020,
-#'         swiss$Pop2040,
-#'         swiss$Pop4065,
-#'         swiss$Pop65P,
-#'         swiss$H00PTOT )
-#' pik=inclusionprobabilities(swiss$POPTOT,400)
-#'
-#'
-#' Xcat <-data.frame(cat1 = swiss$REG)
-#'
-#' system.time(s <- fastcube(X,Xcat,pik))
-#' system.time(s2 <-balancedstratification(X,swiss$REG,pik,comment=FALSE))
-#' as.character(swiss$Nom[s2==1])
-#' t(X/pik)%*%s2
-#'
-#' t(X/pik)%*%s
-#' t(X/pik)%*%pik
+#' \dontrun{
 #'
 #'
 #' ########################################################
@@ -111,6 +85,7 @@ onestep <- function(B,pik,EPS){
 #' A <- Xred/pik
 #' t(A)%*%s
 #' t(A)%*%pik
+#' }
 fastcube <- function(X, Xcat, pik){
 
 

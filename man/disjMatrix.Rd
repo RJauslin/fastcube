@@ -2,15 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{disjMatrix}
 \alias{disjMatrix}
-\title{}
+\title{disjMatrix}
 \usage{
 disjMatrix(strata)
 }
+\arguments{
+\item{starta}{a Matrix}
+}
 \value{
-
+a matrix
 }
 \description{
-
+disj on each column
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}

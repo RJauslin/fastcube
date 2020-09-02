@@ -2,15 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{ncat}
 \alias{ncat}
-\title{}
+\title{ncat}
 \usage{
 ncat(Xcat)
 }
+\arguments{
+\item{Xcat}{Matrix}
+}
 \value{
-
+vector
 }
 \description{
-
+number of cat in each column
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}
