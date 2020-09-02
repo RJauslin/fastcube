@@ -26,26 +26,59 @@ This function reduces considerably the execution time when the matrix of auxilia
 It considers a reduced matrix \code{X} by removing columns and rows that sum to 0 in the flight phase of the method (see  \code{\link{ReducedMatrix}} and \code{\link{ReducedFlightphase}}).
 }
 \examples{
+
+
+#' rm(list = ls())
+data(swissmunicipalities)
+swiss=swissmunicipalities
+X=cbind(swiss$HApoly,
+        swiss$Surfacesbois,
+        swiss$P00BMTOT,
+        swiss$P00BWTOT,
+        swiss$POPTOT,
+        swiss$Pop020,
+        swiss$Pop2040,
+        swiss$Pop4065,
+        swiss$Pop65P,
+        swiss$H00PTOT )
+pik=inclusionprobabilities(swiss$POPTOT,400)
+
+
+Xcat <-data.frame(cat1 = swiss$REG)
+
+system.time(s <- fastcube(X,Xcat,pik))
+system.time(s2 <-balancedstratification(X,swiss$REG,pik,comment=FALSE))
+as.character(swiss$Nom[s2==1])
+t(X/pik)\%*\%s2
+
+t(X/pik)\%*\%s
+t(X/pik)\%*\%pik
+
+
+########################################################
+
+
 rm(list = ls())
 
 library(sampling)
 
-N <- 5000
+N <- 2000
 
-Xcat <-data.frame(cat1 = rep(1:40,each = N/40),
+Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
                     cat2 = rep(1:50,each = N/50),
-                    cat2 = rep(1:200,each = N/200))
+                    cat2 = rep(1:200,each = N/200)))
 
+
+p <- 30
+X <- matrix(rnorm(N*p),ncol = 30)
 pik <- rep(300/N,N)
-p <- 60
-
-X <- matrix(rnorm(N*p),ncol = p)
 system.time(s <- fastcube(X,Xcat,pik))
 
 Xcat_tmp <- as.matrix(do.call(cbind,apply(Xcat,MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
-system.time(s <- ReducedSamplecube(as.matrix(cbind(X,Xcat_tmp)),pik,t = 1000))
+Xred <- as.matrix(cbind(X,Xcat_tmp))
+system.time(s <- ReducedSamplecube(Xred,pik,t = 1000))
 
-A <- X/pik
+A <- Xred/pik
 t(A)\%*\%s
 t(A)\%*\%pik
 }

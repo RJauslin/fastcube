@@ -56,26 +56,59 @@ onestep <- function(B,pik,EPS){
 #'
 #' @export
 #' @examples
+#'
+#'
+#' #' rm(list = ls())
+#' data(swissmunicipalities)
+#' swiss=swissmunicipalities
+#' X=cbind(swiss$HApoly,
+#'         swiss$Surfacesbois,
+#'         swiss$P00BMTOT,
+#'         swiss$P00BWTOT,
+#'         swiss$POPTOT,
+#'         swiss$Pop020,
+#'         swiss$Pop2040,
+#'         swiss$Pop4065,
+#'         swiss$Pop65P,
+#'         swiss$H00PTOT )
+#' pik=inclusionprobabilities(swiss$POPTOT,400)
+#'
+#'
+#' Xcat <-data.frame(cat1 = swiss$REG)
+#'
+#' system.time(s <- fastcube(X,Xcat,pik))
+#' system.time(s2 <-balancedstratification(X,swiss$REG,pik,comment=FALSE))
+#' as.character(swiss$Nom[s2==1])
+#' t(X/pik)%*%s2
+#'
+#' t(X/pik)%*%s
+#' t(X/pik)%*%pik
+#'
+#'
+#' ########################################################
+#'
+#'
 #' rm(list = ls())
 #'
 #' library(sampling)
 #'
-#' N <- 5000
+#' N <- 2000
 #'
-#' Xcat <-data.frame(cat1 = rep(1:40,each = N/40),
+#' Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
 #'                     cat2 = rep(1:50,each = N/50),
-#'                     cat2 = rep(1:200,each = N/200))
+#'                     cat2 = rep(1:200,each = N/200)))
 #'
+#'
+#' p <- 30
+#' X <- matrix(rnorm(N*p),ncol = 30)
 #' pik <- rep(300/N,N)
-#' p <- 60
-#'
-#' X <- matrix(rnorm(N*p),ncol = p)
 #' system.time(s <- fastcube(X,Xcat,pik))
 #'
 #' Xcat_tmp <- as.matrix(do.call(cbind,apply(Xcat,MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
-#' system.time(s <- ReducedSamplecube(as.matrix(cbind(X,Xcat_tmp)),pik,t = 1000))
+#' Xred <- as.matrix(cbind(X,Xcat_tmp))
+#' system.time(s <- ReducedSamplecube(Xred,pik,t = 1000))
 #'
-#' A <- X/pik
+#' A <- Xred/pik
 #' t(A)%*%s
 #' t(A)%*%pik
 fastcube <- function(X, Xcat, pik){
@@ -90,8 +123,8 @@ fastcube <- function(X, Xcat, pik){
   EPS = 1e-8
   A = X/pik
   p = ncol(X)
-  ncat <- sum(apply(Xcat,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
-
+  # ncat <- sum(apply(Xcat,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
+  ncat <- sum(ncat(Xcat))
 
 
   ##----------------------------------------------------------------
@@ -132,7 +165,12 @@ fastcube <- function(X, Xcat, pik){
 
     if(i_size <= p + ncat){
 
-      Xdev <- as.matrix(do.call(cbind,apply(Xcat[i,],MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
+      if(ncol(as.matrix(Xcat[i,])) == 1){
+        Xdev <- model.matrix(~as.factor(as.matrix(Xcat[i,]))-1)
+      }else{
+        Xdev <- as.matrix(do.call(cbind,apply(as.matrix(Xcat[i,]),MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
+      }
+
       B <- cbind(A[i,],Xdev)
       if(i_size > EPS){
         kern <- MASS::Null(B)

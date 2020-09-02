@@ -6,6 +6,39 @@
 
 using namespace Rcpp;
 
+// disj
+arma::umat disj(arma::uvec strata);
+RcppExport SEXP _fastcube_disj(SEXP strataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::uvec >::type strata(strataSEXP);
+    rcpp_result_gen = Rcpp::wrap(disj(strata));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ncat
+arma::rowvec ncat(arma::umat Xcat);
+RcppExport SEXP _fastcube_ncat(SEXP XcatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::umat >::type Xcat(XcatSEXP);
+    rcpp_result_gen = Rcpp::wrap(ncat(Xcat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// disjMatrix
+arma::umat disjMatrix(arma::umat strata);
+RcppExport SEXP _fastcube_disjMatrix(SEXP strataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::umat >::type strata(strataSEXP);
+    rcpp_result_gen = Rcpp::wrap(disjMatrix(strata));
+    return rcpp_result_gen;
+END_RCPP
+}
 // isEye
 bool isEye(arma::mat& M);
 RcppExport SEXP _fastcube_isEye(SEXP MSEXP) {
@@ -89,6 +122,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 1},
+    {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
+    {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
     {"_fastcube_rrefArma", (DL_FUNC) &_fastcube_rrefArma, 1},
     {"_fastcube_osffphase", (DL_FUNC) &_fastcube_osffphase, 2},

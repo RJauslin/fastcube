@@ -23,28 +23,45 @@
 #' X <- matrix(rnorm(N*p),ncol = 30)
 findB <- function(X,
                   Xcat){
+  Xcat <- as.matrix(Xcat)
+  X <- as.matrix(X)
   eps <- 1e-9
   N <- nrow(X)
   pInit <- ncol(X)
 
   Xcat_tmp <- Xcat[1:(pInit+1),]
-  ncat <- sum(apply(Xcat_tmp,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
-  ncat_tmp <- 0
+  # ncat <- sum(apply(as.matrix(Xcat_tmp),MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
+  n_all_cat <- sum(ncat(Xcat_tmp))
+  n_all_cat_tmp <- 0
 
-  while(ncat != ncat_tmp){
-    ncat_tmp = ncat
+  while(n_all_cat != n_all_cat_tmp){
+    n_all_cat_tmp = n_all_cat
     p =  pInit  + ncat
     Xcat_tmp <- Xcat[1:(p+1),]
-    ncat <- sum(apply(Xcat_tmp,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
+    # ncat <- sum(apply(as.matrix(Xcat_tmp),MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
+    ncat <- sum(ncat(Xcat_tmp))
   }
 
-  Xdev <- as.matrix(do.call(cbind,apply(Xcat_tmp,MARGIN = 2,FUN <- function(x){
-    if(all(x == 1)){
-     return(as.matrix(x))
-    }else{
-      return(as.matrix(model.matrix(~as.factor(x)-1)))
-    }
-    })))
+  Xcat_tmp <- as.matrix(Xcat_tmp)
+
+
+  Xdev <- disj(Xcat_tmp[,3])
+  # if(ncol(Xcat_tmp) == 1){
+  #   if(all(Xcat_tmp[,1] == Xcat_tmp[1,1])){
+  #     Xdev <- Xcat_tmp
+  #   }else{
+  #     Xdev <- model.matrix(~as.factor(Xcat_tmp)-1)
+  #   }
+  # }else{
+  #   Xdev <- as.matrix(do.call(cbind,apply(Xcat_tmp,MARGIN = 2,FUN <- function(x){
+  #     if(all(x == 1)){
+  #       return(as.matrix(x))
+  #     }else{
+  #       return(as.matrix(model.matrix(~as.factor(x)-1)))
+  #     }
+  #   })))
+  # }
+
   return(cbind(X[1:(p+1),],Xdev))
 
 
