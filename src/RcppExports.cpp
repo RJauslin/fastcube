@@ -39,6 +39,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// findBarma
+arma::mat findBarma(arma::mat X, arma::umat Xcat);
+RcppExport SEXP _fastcube_findBarma(SEXP XSEXP, SEXP XcatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::umat >::type Xcat(XcatSEXP);
+    rcpp_result_gen = Rcpp::wrap(findBarma(X, Xcat));
+    return rcpp_result_gen;
+END_RCPP
+}
 // isEye
 bool isEye(arma::mat& M);
 RcppExport SEXP _fastcube_isEye(SEXP MSEXP) {
@@ -125,6 +137,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 1},
     {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
+    {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
     {"_fastcube_rrefArma", (DL_FUNC) &_fastcube_rrefArma, 1},
     {"_fastcube_osffphase", (DL_FUNC) &_fastcube_osffphase, 2},

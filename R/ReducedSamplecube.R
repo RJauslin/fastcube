@@ -97,7 +97,7 @@ ReducedSamplecube <- function(X, pik, redux = TRUE, t){
     if(redux == TRUE){
       pik_tmp <- pik[i]
       tmp <- ReducedMatrix(B)
-
+      print(dim(tmp$B))
       B_tmp <- tmp$B
       pik_tmp[tmp$ind_row]<- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
       pik[i] <- pik_tmp

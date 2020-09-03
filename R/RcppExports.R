@@ -49,6 +49,23 @@ disjMatrix <- function(strata) {
     .Call(`_fastcube_disjMatrix`, strata)
 }
 
+#' @title findBarma
+#'
+#' @description
+#' findB
+#'
+#' @param X a Matrix
+#' @param Xcat a Matrix
+#'
+#' @return a matrix
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+findBarma <- function(X, Xcat) {
+    .Call(`_fastcube_findBarma`, X, Xcat)
+}
+
 #' @title is Identiy matrix
 #'
 #' @param M matrix

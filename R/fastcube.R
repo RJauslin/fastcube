@@ -66,7 +66,7 @@ onestep <- function(B,pik,EPS){
 #'
 #' library(sampling)
 #'
-#' N <- 2000
+#' N <- 1000
 #'
 #' Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
 #'                     cat2 = rep(1:50,each = N/50),
@@ -85,7 +85,7 @@ onestep <- function(B,pik,EPS){
 #' Xcat_tmp <- disjMatrix(Xcat)
 #' Xred <- as.matrix(cbind(X,Xcat_tmp))
 #' system.time(s2 <- ReducedSamplecube(Xred,pik,t = 1000))
-#'
+#' system.time(s2 <- cube(Xred,pik,t = 1000))
 #' A <- Xred/pik
 #' t(A)%*%s2
 #' t(A)%*%s1
@@ -127,6 +127,7 @@ fastcube <- function(X, Xcat, pik){
   ##---------------------------------------------------------------
 
   while(i_size > 0){
+    print(dim(B))
     # print(i_size)
     pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
 

@@ -167,3 +167,64 @@ system.time(test <-  disjMatrix(Xcat))
 disjMatrix(as.matrix(Xcat[,1]))
 
 */
+
+
+// [[Rcpp::depends(RcppArmadillo)]]
+//' @title findBarma
+//'
+//' @description
+//' findB
+//'
+//' @param X a Matrix
+//' @param Xcat a Matrix
+//'
+//' @return a matrix
+//'
+//' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+//'
+//' @export
+// [[Rcpp::export]]
+arma::mat findBarma(arma::mat X,arma::umat Xcat){
+  // double eps = 1e-9;
+  int pInit = X.n_cols;
+
+  arma::umat Xcat_tmp = Xcat.rows(0,pInit);
+  int n_all_cat = sum(ncat(Xcat_tmp));
+  int n_all_cat_tmp = 0;
+  int p = 0;
+
+  while(n_all_cat != n_all_cat_tmp){
+    n_all_cat_tmp = n_all_cat;
+    p = pInit + n_all_cat;
+    Xcat_tmp = Xcat.rows(0,p);
+    n_all_cat = sum(ncat(Xcat_tmp));
+  }
+
+  arma::umat Xdev = disjMatrix(Xcat_tmp);
+  arma::mat Xdev_tmp = arma::conv_to<arma::mat>::from(Xdev);
+  arma::mat final = arma::join_rows(X.rows(0,p),Xdev_tmp);
+  return(final);
+
+}
+
+
+
+/***R
+rm(list = ls())
+
+library(sampling)
+N <- 5000
+Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
+                  cat2 = rep(1:50,each = N/50),
+                  cat3 = rep(1:500,times = 2)))
+                  # cat3 = rep(1:100,each = N/100)))
+
+pik <- inclusionprobastrata(Xcat[,1],rep(1,40))
+p <- 30
+X <- as.matrix(matrix(rnorm(N*p),ncol = 30))
+dim(findB(X,Xcat))
+
+system.time(B1 <- findBarma(X,Xcat))
+system.time(B2 <- findB(X,Xcat))
+
+*/
