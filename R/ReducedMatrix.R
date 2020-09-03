@@ -47,8 +47,8 @@ ReducedMatrix <- function(B){
       ind_row <- ind_row[1:(ncol(BB)+1)]
       BB      <- BB[1:(ncol(BB)+1),]
     }else{
-        ind_col <- ind_col[1:(length(ind_row)-1)]
-        BB      <- BB[,1:length(ind_row)-1]
+        # ind_col <- ind_col[1:(length(ind_row)-1)]
+        # BB      <- BB[,1:length(ind_row)-1]
     }
     # recompute
     sums_col <- colSums(BB)

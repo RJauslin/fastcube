@@ -131,7 +131,7 @@ arma::umat disjMatrix(arma::umat strata) {
   arma::uvec ind = arma::conv_to<arma::uvec>::from(subind);
 
 
-  for(arma::uword i = 0;i < (p-1);i++){
+  for(arma::uword i = 0;i < p;i++){
     arma::uvec tmp = strata.col(i);
     arma::umat tmp_mat(N,all_cat(i),arma::fill::zeros);
     tmp_mat = disj(tmp);

@@ -51,6 +51,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// onestep2
+arma::vec onestep2(arma::mat B, arma::vec pik, double EPS);
+RcppExport SEXP _fastcube_onestep2(SEXP BSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
+    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
+    rcpp_result_gen = Rcpp::wrap(onestep2(B, pik, EPS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fastcubeArma
+arma::vec fastcubeArma(arma::mat X, arma::umat Xcat, arma::vec pik);
+RcppExport SEXP _fastcube_fastcubeArma(SEXP XSEXP, SEXP XcatSEXP, SEXP pikSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::umat >::type Xcat(XcatSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
+    rcpp_result_gen = Rcpp::wrap(fastcubeArma(X, Xcat, pik));
+    return rcpp_result_gen;
+END_RCPP
+}
 // isEye
 bool isEye(arma::mat& M);
 RcppExport SEXP _fastcube_isEye(SEXP MSEXP) {
@@ -138,6 +164,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
+    {"_fastcube_onestep2", (DL_FUNC) &_fastcube_onestep2, 3},
+    {"_fastcube_fastcubeArma", (DL_FUNC) &_fastcube_fastcubeArma, 3},
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
     {"_fastcube_rrefArma", (DL_FUNC) &_fastcube_rrefArma, 1},
     {"_fastcube_osffphase", (DL_FUNC) &_fastcube_osffphase, 2},

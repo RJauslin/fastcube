@@ -45,22 +45,34 @@ Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
 
 p <- 30
 X <- matrix(rnorm(N*p),ncol = 30)
-pik <- rep(300/N,N)
-system.time(s1 <- fastcube(X,Xcat,pik))
-A <- X/pik
-t(A)\%*\%s1
-t(A)\%*\%pik
 
 
 Xcat_tmp <- disjMatrix(Xcat)
+Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
 Xred <- as.matrix(cbind(X,Xcat_tmp))
-system.time(s2 <- ReducedSamplecube(Xred,pik,t = 1000))
-system.time(s2 <- cube(Xred,pik,t = 1000))
-A <- Xred/pik
-t(A)\%*\%s2
-t(A)\%*\%s1
-t(A)\%*\%pik
 
+pik <- rep(300/N,N)
+A <- Xred/pik
+
+
+system.time(s1 <- fastcube(X,Xcat,pik))
+as.vector(t(A)\%*\%s1)
+as.vector(t(A)\%*\%pik)
+
+system.time(s2 <- ReducedSamplecube(Xred,pik,redux = TRUE))
+A <- Xred/pik
+as.vector(t(A)\%*\%s2)
+as.vector(t(A)\%*\%pik)
+
+system.time(s3 <- fastflightcube(Xred,pik,order = 2,comment = FALSE))
+as.vector(t(A)\%*\%s3)
+as.vector(t(A)\%*\%pik)
+
+
+
+system.time(s4 <- BalancedSampling::flightphase(pik,Xred))
+as.vector(t(A)\%*\%s4)
+as.vector(t(A)\%*\%pik)
 
 }
 }

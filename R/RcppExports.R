@@ -66,6 +66,40 @@ findBarma <- function(X, Xcat) {
     .Call(`_fastcube_findBarma`, X, Xcat)
 }
 
+#' @title title
+#'
+#' @description
+#' description
+#'
+#'
+#' @param B matrix of auxiliary variables.
+#' @param pik vector of inclusion probabilities
+#' @param EPS tolerance
+#'
+#' @return updated pik
+#'
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+onestep2 <- function(B, pik, EPS = 0.0000001) {
+    .Call(`_fastcube_onestep2`, B, pik, EPS)
+}
+
+#' @title fastcubeArma
+#'
+#' @param X matrix
+#' @param Xcat matrix
+#' @param pik matrix
+#'
+#' @return sample
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+fastcubeArma <- function(X, Xcat, pik) {
+    .Call(`_fastcube_fastcubeArma`, X, Xcat, pik)
+}
+
 #' @title is Identiy matrix
 #'
 #' @param M matrix

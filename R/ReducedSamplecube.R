@@ -49,8 +49,23 @@ onestep <- function(B,pik,EPS){
 #' @seealso \code{\link[sampling:samplecube]{samplecube}}, \code{\link[sampling:landingcube]{landingcube}}, \code{\link{ReducedFlightphase}}, \code{\link{ReducedMatrix}}
 #'
 #'
+#' @examples
+#' set.seed(1)
+#' ## Matrix of 8 auxilary variables and 10 units with lot of 0s ##
+#'
+#' ## Inclusion probabilities with 10 units ##
+#' pik <- sampling::inclusionprobabilities(runif(40),10)
+#' X   <- matrix(sample(c(0,0,0,1),240,replace=TRUE), nrow = 40, ncol =  8)
+#' X <- cbind(pik,X)
+#' ## Cube method ##
+#' s <- ReducedSamplecube(X, pik)
+#' # s <- sampling::samplecube(X,pik)
+#' s
+#' sum(pik)
+#' sum(s)
+#'
 #' @export
-ReducedSamplecube <- function(X, pik, redux = TRUE, t){
+ReducedSamplecube <- function(X, pik, redux = TRUE){
 
   ##----------------------------------------------------------------
   ##                        Initialization                         -
@@ -96,7 +111,8 @@ ReducedSamplecube <- function(X, pik, redux = TRUE, t){
 
     if(redux == TRUE){
       pik_tmp <- pik[i]
-      tmp <- ReducedMatrix(B)
+      # tmp <- ReducedMatrix(B)
+      tmp <- reduxArma(B)
       print(dim(tmp$B))
       B_tmp <- tmp$B
       pik_tmp[tmp$ind_row]<- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
@@ -124,17 +140,12 @@ ReducedSamplecube <- function(X, pik, redux = TRUE, t){
     if(i_size >= (J+1)){
       i <- i[1:(J+1)]
       B = A[i,]
-    }else if(i_size > t){
-      B = A[i,]
     }else{
-
+      # break;
       B = A[i,]
-
-      if(i_size > EPS){
-        kern <- MASS::Null(B)
-        if(length(kern)==0){
-          break;
-        }
+      kern <- MASS::Null(B)
+      if(length(kern)==0){
+      break;
       }
     }
   }

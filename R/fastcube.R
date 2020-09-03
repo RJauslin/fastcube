@@ -75,22 +75,34 @@ onestep <- function(B,pik,EPS){
 #'
 #' p <- 30
 #' X <- matrix(rnorm(N*p),ncol = 30)
-#' pik <- rep(300/N,N)
-#' system.time(s1 <- fastcube(X,Xcat,pik))
-#' A <- X/pik
-#' t(A)%*%s1
-#' t(A)%*%pik
 #'
 #'
 #' Xcat_tmp <- disjMatrix(Xcat)
+#' Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
 #' Xred <- as.matrix(cbind(X,Xcat_tmp))
-#' system.time(s2 <- ReducedSamplecube(Xred,pik,t = 1000))
-#' system.time(s2 <- cube(Xred,pik,t = 1000))
-#' A <- Xred/pik
-#' t(A)%*%s2
-#' t(A)%*%s1
-#' t(A)%*%pik
 #'
+#' pik <- rep(300/N,N)
+#' A <- Xred/pik
+#'
+#'
+#' system.time(s1 <- fastcube(X,Xcat,pik))
+#' as.vector(t(A)%*%s1)
+#' as.vector(t(A)%*%pik)
+#'
+#' system.time(s2 <- ReducedSamplecube(Xred,pik,redux = TRUE))
+#' A <- Xred/pik
+#' as.vector(t(A)%*%s2)
+#' as.vector(t(A)%*%pik)
+#'
+#' system.time(s3 <- fastflightcube(Xred,pik,order = 2,comment = FALSE))
+#' as.vector(t(A)%*%s3)
+#' as.vector(t(A)%*%pik)
+#'
+#'
+#'
+#' system.time(s4 <- BalancedSampling::flightphase(pik,Xred))
+#' as.vector(t(A)%*%s4)
+#' as.vector(t(A)%*%pik)
 #'
 #' }
 fastcube <- function(X, Xcat, pik){
@@ -115,7 +127,7 @@ fastcube <- function(X, Xcat, pik){
 
   i <- which(pik > EPS & pik < (1-EPS))
   i_size = length(i)
-  B <- findB(A[i,],Xcat[i,])
+  # B <- findB(A[i,],Xcat[i,])
 
   # i <- which(pik > EPS & pik < (1-EPS))[1:(J+1)]
   # i_size = length(i)
@@ -127,18 +139,13 @@ fastcube <- function(X, Xcat, pik){
   ##---------------------------------------------------------------
 
   while(i_size > 0){
-    print(dim(B))
-    # print(i_size)
-    pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
+    # print(dim(B))
+    print(i_size)
+    # pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
 
 
 
-    ##------------
-    ##  update i
-    ##------------
 
-    i <- which(pik > EPS & pik < (1-EPS))
-    i_size = length(i)
 
 
 
@@ -161,15 +168,23 @@ fastcube <- function(X, Xcat, pik){
         if(length(kern)==0){
           break;
         }
-      }else{
-        pik[i] <- onestep(B,pik[i],EPS)
       }
+      pik[i] <- onestep(B,pik[i],EPS)
+
 
 
 
     }else{
       B <- findB(A[i,],Xcat[i,])
+      pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
     }
+
+    ##------------
+    ##  update i
+    ##------------
+
+    i <- which(pik > EPS & pik < (1-EPS))
+    i_size = length(i)
 
   }
 

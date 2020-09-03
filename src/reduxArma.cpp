@@ -85,13 +85,13 @@ Rcpp::List reduxArma(arma::mat B) {
 
         B_out = B_out(r,c);
       }else{
-        arma::uvec r = arma::regspace<arma::uvec>(0,1,B_out.n_rows - 1);
-        arma::uvec c = arma::regspace<arma::uvec>(0,1,B_out.n_rows - 2);
-
-        ind_row = ind_row.elem(r);
-        ind_col = ind_col.elem(c);
-
-        B_out = B_out(r,c);
+        // arma::uvec r = arma::regspace<arma::uvec>(0,1,B_out.n_rows - 1);
+        // arma::uvec c = arma::regspace<arma::uvec>(0,1,B_out.n_rows - 2);
+        //
+        // ind_row = ind_row.elem(r);
+        // ind_col = ind_col.elem(c);
+        //
+        // B_out = B_out(r,c);
       }
     }
 
@@ -103,8 +103,8 @@ Rcpp::List reduxArma(arma::mat B) {
   }
 
     return Rcpp::List::create(Rcpp::Named("B") = B_out,
-                              Rcpp::Named("ind_col") = ind_col ,
-                              Rcpp::Named("ind_row") = ind_row );
+                              Rcpp::Named("ind_col") = ind_col +1,
+                              Rcpp::Named("ind_row") = ind_row +1);
   }
 
 
