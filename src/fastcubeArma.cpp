@@ -92,6 +92,13 @@ arma::vec fastcubeArma(arma::mat X,
   // arma::mat B = findBarma(X.rows(i),Xcat.rows(i));
 
   while(i_size > 0){
+
+
+
+
+
+
+
     std::cout << i_size << std::endl;
 
     if(i_size <= p + n_all_cat){
@@ -113,6 +120,9 @@ arma::vec fastcubeArma(arma::mat X,
 
 
     i = arma::find(pik > eps && pik < (1-eps));
+
+
+
     i_size = i.size();
 
 

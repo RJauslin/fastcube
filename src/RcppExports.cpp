@@ -77,6 +77,52 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// isEye2
+bool isEye2(arma::mat& M);
+RcppExport SEXP _fastcube_isEye2(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
+    rcpp_result_gen = Rcpp::wrap(isEye2(M));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rrefArma2
+void rrefArma2(arma::mat& M);
+RcppExport SEXP _fastcube_rrefArma2(SEXP MSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
+    rrefArma2(M);
+    return R_NilValue;
+END_RCPP
+}
+// osffphase2
+arma::vec osffphase2(arma::vec prob, arma::mat Bm);
+RcppExport SEXP _fastcube_osffphase2(SEXP probSEXP, SEXP BmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type prob(probSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Bm(BmSEXP);
+    rcpp_result_gen = Rcpp::wrap(osffphase2(prob, Bm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ffphase
+arma::vec ffphase(arma::vec prob, arma::mat Xbal, bool redux);
+RcppExport SEXP _fastcube_ffphase(SEXP probSEXP, SEXP XbalSEXP, SEXP reduxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type prob(probSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Xbal(XbalSEXP);
+    Rcpp::traits::input_parameter< bool >::type redux(reduxSEXP);
+    rcpp_result_gen = Rcpp::wrap(ffphase(prob, Xbal, redux));
+    return rcpp_result_gen;
+END_RCPP
+}
 // isEye
 bool isEye(arma::mat& M);
 RcppExport SEXP _fastcube_isEye(SEXP MSEXP) {
@@ -166,6 +212,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
     {"_fastcube_onestep2", (DL_FUNC) &_fastcube_onestep2, 3},
     {"_fastcube_fastcubeArma", (DL_FUNC) &_fastcube_fastcubeArma, 3},
+    {"_fastcube_isEye2", (DL_FUNC) &_fastcube_isEye2, 1},
+    {"_fastcube_rrefArma2", (DL_FUNC) &_fastcube_rrefArma2, 1},
+    {"_fastcube_osffphase2", (DL_FUNC) &_fastcube_osffphase2, 2},
+    {"_fastcube_ffphase", (DL_FUNC) &_fastcube_ffphase, 3},
     {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
     {"_fastcube_rrefArma", (DL_FUNC) &_fastcube_rrefArma, 1},
     {"_fastcube_osffphase", (DL_FUNC) &_fastcube_osffphase, 2},

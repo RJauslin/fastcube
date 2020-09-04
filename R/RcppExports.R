@@ -109,6 +109,87 @@ fastcubeArma <- function(X, Xcat, pik) {
 #' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 #'
 #' @export
+isEye2 <- function(M) {
+    .Call(`_fastcube_isEye2`, M)
+}
+
+#' @title reduced row echelon form arma implementation
+#'
+#'
+#' @param M matrix
+#'
+#' @return NULL (transform matrix)
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+rrefArma2 <- function(M) {
+    invisible(.Call(`_fastcube_rrefArma2`, M))
+}
+
+#' @title title
+#'
+#' @description
+#' description
+#'
+#'
+#' @param prob inclusion probabilities
+#' @param Bm matrix of auxiliary variables
+#'
+#' @details
+#'
+#' details
+#'
+#' @return a vector
+#'
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @seealso
+#' func
+#'
+#' @examples
+#'
+#' @export
+osffphase2 <- function(prob, Bm) {
+    .Call(`_fastcube_osffphase2`, prob, Bm)
+}
+
+#' @title Fast Flight phase
+#'
+#'
+#' @description
+#'
+#' Modified version of \code{\link[BalancedSampling:flightphase]{flightphase}}
+#'
+#' @param prob vector of inclusion probabilities of size N.
+#' @param Xbal Matrix of auxiliary variables of dimension N x p
+#' @param order if reordering at first step, Default TRUE.
+#' @param redux if the matrix should be reduced. Default FALSE.
+#'
+#' @details
+#'
+#' details
+#'
+#' @return a sample with at most p value not update to 0 or 1.
+#'
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+ffphase <- function(prob, Xbal, redux = FALSE) {
+    .Call(`_fastcube_ffphase`, prob, Xbal, redux)
+}
+
+#' @title is Identiy matrix
+#'
+#' @param M matrix
+#'
+#' @return bool
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
 isEye <- function(M) {
     .Call(`_fastcube_isEye`, M)
 }

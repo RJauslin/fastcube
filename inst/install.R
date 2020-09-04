@@ -61,4 +61,28 @@ system.time(M <- sampling::disjunctive(strata))
 #'
 #' t(X/pik)%*%s
 #' t(X/pik)%*%pik
-#'
+
+
+rm(list = ls())
+
+library(sampling)
+N <- 10000
+
+Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
+                            cat2 = rep(1:50,each = N/50),
+                            cat2 = rep(1:100,each = N/100)))
+
+p <- 30
+X <- matrix(rnorm(N*p),ncol = 30)
+
+
+Xcat_tmp <- disjMatrix(Xcat)
+Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
+Xred <- as.matrix(cbind(X,Xcat_tmp))
+
+pik <- rep(300/N,N)
+A <- Xred/pik
+system.time(s1 <- fastcubeArma(X,Xcat,pik))
+system.time(s1 <- fastcube(X,Xcat,pik))
+as.vector(t(A)%*%as.vector(s1))
+as.vector(t(A)%*%pik)
