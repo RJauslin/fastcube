@@ -310,6 +310,7 @@ arma::vec ffphase(arma::vec prob, arma::mat Xbal, bool redux = false){
 
       }else{
         rrefArma2(B);
+        // std::cout << B << std::endl;
         if(howmany < naux + 1){
 
           bool test = isEye2(B);
@@ -319,6 +320,8 @@ arma::vec ffphase(arma::vec prob, arma::mat Xbal, bool redux = false){
             p_small = osffphase2(p_small,B);
           }
         }else{
+
+          std::cout << sum(p) << std::endl;
           p_small = osffphase2(p_small,B);
         }
       }
@@ -345,7 +348,6 @@ arma::vec ffphase(arma::vec prob, arma::mat Xbal, bool redux = false){
       done = N;
     }
 
-    std::cout << sum(p) << std::endl;
   }
 
   // round
@@ -374,11 +376,25 @@ p <- 30
 X <- matrix(rnorm(N*p),ncol = 30)
 
 
+
+# rm(list = ls())
+#
+# library(sampling)
+# N <- 100
+#
+# Xcat <-as.matrix(data.frame(cat1 = rep(1:4,each = N/4),
+#                             cat2 = rep(1:5,each = N/5),
+#                             cat2 = rep(1:10,each = N/10)))
+#
+# p <- 3
+# X <- matrix(rnorm(N*p),ncol = 3)
+
+
 Xcat_tmp <- disjMatrix(Xcat)
 Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
 Xred <- as.matrix(cbind(X,Xcat_tmp))
 
-pik <- rep(300/N,N)
+pik <- rep(10/N,N)
 A <- Xred/pik
 system.time(s1 <- ffphase(pik,Xred,redux = FALSE))
 system.time(s1 <- fastcube(X,Xcat,pik))

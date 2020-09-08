@@ -122,7 +122,7 @@ rm(list = ls())
 N = 50
 n = 30
 p = 20
-pik=inclusionprobabilities(runif(N),n)
+pik=sampling::inclusionprobabilities(runif(N),n)
 X=cbind(pik,matrix(rnorm(N*p),c(N,p)))
 A <- as.matrix(X/pik)
 
@@ -382,7 +382,7 @@ rm(list = ls())
 N = 500
 n = 20
 p = 10
-pik=inclusionprobabilities(runif(N),n)
+pik=sampling::inclusionprobabilities(runif(N),n)
 X=cbind(pik,matrix(rnorm(N*p),c(N,p)))
 A=X/pik
 system.time(test <- flightphase_arma(X,pik,redux = TRUE))

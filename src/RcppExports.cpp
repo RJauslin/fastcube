@@ -6,6 +6,18 @@
 
 using namespace Rcpp;
 
+// flightphaseModif
+NumericVector flightphaseModif(NumericVector prob, NumericMatrix Xbal);
+RcppExport SEXP _fastcube_flightphaseModif(SEXP probSEXP, SEXP XbalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type prob(probSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Xbal(XbalSEXP);
+    rcpp_result_gen = Rcpp::wrap(flightphaseModif(prob, Xbal));
+    return rcpp_result_gen;
+END_RCPP
+}
 // disj
 arma::umat disj(arma::uvec strata);
 RcppExport SEXP _fastcube_disj(SEXP strataSEXP) {
@@ -61,6 +73,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
     Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
     rcpp_result_gen = Rcpp::wrap(onestep2(B, pik, EPS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rea
+arma::uvec rea(arma::uvec& index, const arma::vec& pik, int& done);
+RcppExport SEXP _fastcube_rea(SEXP indexSEXP, SEXP pikSEXP, SEXP doneSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::uvec& >::type index(indexSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type pik(pikSEXP);
+    Rcpp::traits::input_parameter< int& >::type done(doneSEXP);
+    rcpp_result_gen = Rcpp::wrap(rea(index, pik, done));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -206,11 +231,13 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_fastcube_flightphaseModif", (DL_FUNC) &_fastcube_flightphaseModif, 2},
     {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 1},
     {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
     {"_fastcube_onestep2", (DL_FUNC) &_fastcube_onestep2, 3},
+    {"_fastcube_rea", (DL_FUNC) &_fastcube_rea, 3},
     {"_fastcube_fastcubeArma", (DL_FUNC) &_fastcube_fastcubeArma, 3},
     {"_fastcube_isEye2", (DL_FUNC) &_fastcube_isEye2, 1},
     {"_fastcube_rrefArma2", (DL_FUNC) &_fastcube_rrefArma2, 1},
