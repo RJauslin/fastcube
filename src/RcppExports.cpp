@@ -77,15 +77,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // rea
-arma::uvec rea(arma::uvec& index, const arma::vec& pik, int& done);
-RcppExport SEXP _fastcube_rea(SEXP indexSEXP, SEXP pikSEXP, SEXP doneSEXP) {
+arma::uvec rea(arma::uvec& index, const arma::vec& pik, int& done, const int howlong);
+RcppExport SEXP _fastcube_rea(SEXP indexSEXP, SEXP pikSEXP, SEXP doneSEXP, SEXP howlongSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::uvec& >::type index(indexSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type pik(pikSEXP);
     Rcpp::traits::input_parameter< int& >::type done(doneSEXP);
-    rcpp_result_gen = Rcpp::wrap(rea(index, pik, done));
+    Rcpp::traits::input_parameter< const int >::type howlong(howlongSEXP);
+    rcpp_result_gen = Rcpp::wrap(rea(index, pik, done, howlong));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -229,6 +230,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// onestep5
+arma::vec onestep5(arma::mat B, arma::vec pik, double EPS);
+RcppExport SEXP _fastcube_onestep5(SEXP BSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
+    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
+    rcpp_result_gen = Rcpp::wrap(onestep5(B, pik, EPS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// flightphase_arma5
+arma::vec flightphase_arma5(arma::mat X, arma::vec pik, double EPS);
+RcppExport SEXP _fastcube_flightphase_arma5(SEXP XSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
+    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
+    rcpp_result_gen = Rcpp::wrap(flightphase_arma5(X, pik, EPS));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_flightphaseModif", (DL_FUNC) &_fastcube_flightphaseModif, 2},
@@ -237,7 +264,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
     {"_fastcube_onestep2", (DL_FUNC) &_fastcube_onestep2, 3},
-    {"_fastcube_rea", (DL_FUNC) &_fastcube_rea, 3},
+    {"_fastcube_rea", (DL_FUNC) &_fastcube_rea, 4},
     {"_fastcube_fastcubeArma", (DL_FUNC) &_fastcube_fastcubeArma, 3},
     {"_fastcube_isEye2", (DL_FUNC) &_fastcube_isEye2, 1},
     {"_fastcube_rrefArma2", (DL_FUNC) &_fastcube_rrefArma2, 1},
@@ -250,6 +277,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_fastcube_flightphase_arma", (DL_FUNC) &_fastcube_flightphase_arma, 3},
     {"_fastcube_reduxArma", (DL_FUNC) &_fastcube_reduxArma, 1},
     {"_fastcube_systematicDesign", (DL_FUNC) &_fastcube_systematicDesign, 1},
+    {"_fastcube_onestep5", (DL_FUNC) &_fastcube_onestep5, 3},
+    {"_fastcube_flightphase_arma5", (DL_FUNC) &_fastcube_flightphase_arma5, 3},
     {NULL, NULL, 0}
 };
 

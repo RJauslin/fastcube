@@ -184,7 +184,8 @@ disjMatrix(as.matrix(Xcat[,1]))
 //'
 //' @export
 // [[Rcpp::export]]
-arma::mat findBarma(arma::mat X,arma::umat Xcat){
+arma::mat findBarma(arma::mat X,
+                    arma::umat Xcat){
   // double eps = 1e-9;
   int pInit = X.n_cols;
 

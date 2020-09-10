@@ -108,8 +108,8 @@ onestep2 <- function(B, pik, EPS = 0.0000001) {
 #' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 #'
 #' @export
-rea <- function(index, pik, done) {
-    .Call(`_fastcube_rea`, index, pik, done)
+rea <- function(index, pik, done, howlong) {
+    .Call(`_fastcube_rea`, index, pik, done, howlong)
 }
 
 #' @title fastcubeArma
@@ -341,5 +341,42 @@ reduxArma <- function(B) {
 #' @export
 systematicDesign <- function(pik) {
     .Call(`_fastcube_systematicDesign`, pik)
+}
+
+#' @title title
+#'
+#' @description
+#' description
+#'
+#'
+#' @param B matrix of auxiliary variables.
+#' @param pik vector of inclusion probabilities
+#' @param EPS tolerance
+#'
+#' @return updated pik
+#'
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+onestep5 <- function(B, pik, EPS = 0.0000001) {
+    .Call(`_fastcube_onestep5`, B, pik, EPS)
+}
+
+#' @title title
+#'
+#'
+#'
+#' @param X matrix of auxiliary variables.
+#' @param pik vector of inclusion probabilities
+#' @param EPS tolerance
+#'
+#' @return a sample
+#'
+#' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+#'
+#' @export
+flightphase_arma5 <- function(X, pik, EPS = 0.0000001) {
+    .Call(`_fastcube_flightphase_arma5`, X, pik, EPS)
 }
 

@@ -4,7 +4,7 @@
 \alias{rea}
 \title{title}
 \usage{
-rea(index, pik)
+rea(index, pik, done, howlong)
 }
 \value{
 index updated index
