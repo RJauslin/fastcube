@@ -6,6 +6,9 @@
 \usage{
 rea(index, pik, done, howlong)
 }
+\arguments{
+\item{index}{}
+}
 \value{
 index updated index
 }

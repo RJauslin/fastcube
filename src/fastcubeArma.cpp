@@ -71,7 +71,10 @@ arma::vec onestep2(arma::mat B,arma::vec pik,double EPS=0.0000001){
 // [[Rcpp::depends(RcppArmadillo)]]
 //' @title title
 //'
-//' @param
+//' @param index
+//' @param index
+//' @param index
+//' @param index
 //'
 //' @return index updated index
 //'
@@ -80,7 +83,6 @@ arma::vec onestep2(arma::mat B,arma::vec pik,double EPS=0.0000001){
 //'
 //' @export
 // [[Rcpp::export]]
-
 arma::uvec rea(arma::uvec &index,
                const arma::vec &pik,
                int &done,
@@ -149,102 +151,25 @@ arma::vec fastcubeArma(arma::mat X,
   int howlong = N;
   i = rea(i,pik,done,howlong);
 
-
-
-
   int step = 0;
-  while(done < N && step < 2000){
 
+  while(done < N && step < 1000){
+    // std::cout << done << std::endl;
 
-    std::cout << done << std::endl;
+    B = findBarma(A.rows(i.subvec(done+1,N-1)),Xcat.rows(i.subvec(done+1,N-1)));
 
-
-
-
-    // if(howmany < p + n_all_cat +1){done=N; break;}
-
-
-    // if(howmany < p + n_all_cat +1){
-    //
-    //   // arma::umat Xdev = disjMatrix(Xcat.rows(i.subvec(done+1,N-1)));
-    //   // arma::mat Xdev_tmp = arma::conv_to<arma::mat>::from(Xdev);
-    //   // B = arma::join_rows(A.rows(i.subvec(done+1,N-1)),Xdev_tmp);
-    //     arma::mat kern = arma::null(B.t());
-    //     if(kern.empty()){
-    //       break;
-    //     }
-    // }
-
-    // if(i_size <= p + n_all_cat){
-    // if(done > (p+ n_all_cat)){
-      // break;
-
-      // std::cout << "smaller than p + n_all_cat " << std::endl;
-      //
-      //
-      //
-      // // arma::umat Xdev = disjMatrix(Xcat.rows(i));
-      // arma::umat Xdev = disjMatrix(Xcat.rows(done,N));
-      //
-      // arma::mat Xdev_tmp = arma::conv_to<arma::mat>::from(Xdev);
-      // // B = arma::join_rows(A.rows(i),Xdev_tmp);
-      //
-      // B = arma::join_rows(A.rows(done,N),Xdev_tmp);
-      // // if(i_size > eps){
-      //   arma::mat kern = arma::null(B.t());
-      //   if(kern.empty()){
-      //     break;
-      //   }
-      // // }
-      // // pik.elem(i) = onestep2(B,pik.elem(i));
-      //   pik.elem(i.subvec(done,done + B.n_rows)) = onestep2(B,pik.elem(i.subvec(done,done + B.n_rows)));
-
-    // }else{
-
-
-
-      B = findBarma(A.rows(i.subvec(done+1,N-1)),Xcat.rows(i.subvec(done+1,N-1)));
-      std::cout << i.subvec(done+1,N-1) << std::endl;
-      if((N-done) < p + n_all_cat +1){
-        // break;
-        // arma::umat Xdev = disjMatrix(Xcat.rows(i.subvec(done+1,N-1)));
-        // arma::mat Xdev_tmp = arma::conv_to<arma::mat>::from(Xdev);
-        // B = arma::join_rows(A.rows(i.subvec(done+1,N-1)),Xdev_tmp);
-        std::cout << "kern empty " << std::endl;
-        arma::mat kern = arma::null(B.t());
-        if(kern.empty()){
-          break;
+    if((N-done) < p + n_all_cat +1){
+      arma::mat kern = arma::null(B.t());
+      if(kern.empty()){
+        break;
         }
       }
-      // B = findBarma(X.rows(i),Xcat.rows(i));
 
-
-      // std::cout << done + B.n_rows << std::endl;
-
-
-      // arma::uvec test = i.subvec(done,done + B.n_rows);
-
-      // std::cout << " before : " <<  pik.elem(i.subvec(done,done + B.n_rows)) << std::endl;
-
-      pik.elem(i.subvec(done+1,done + B.n_rows)) = onestep2(B,pik.elem(i.subvec(done+1,done + B.n_rows)));
-
-      // std::cout << " after : " << pik.elem(i.subvec(done,done + B.n_rows)) << std::endl;
-      // pik.elem(i.head(B.n_rows)) = onestep2(B,pik.elem(i.head(B.n_rows)));
-    // }
-
-
-
-
-    // i = arma::find(pik > eps && pik < (1-eps));
-    // howlong = done + B.n_rows;
-    i = rea(i,pik,done,N);
-
-    // std::cout << howlong <<std::endl;
-    // std::cout << pik << std::endl;
-
-    // i_size = i.size();
-    std::cout << "last loop" << std::endl;
-  step = step + 1;
+    pik.elem(i.subvec(done+1,done + B.n_rows)) = onestep2(B,pik.elem(i.subvec(done+1,done + B.n_rows)));
+    howlong = done + B.n_rows + 1  ;
+    // std::cout << howlong << std::endl;
+    i = rea(i,pik,done,howlong);
+    step = step + 1;
   }
   return(pik);
 }
@@ -253,21 +178,21 @@ arma::vec fastcubeArma(arma::mat X,
 rm(list = ls())
 # set.seed(1)
 library(sampling)
-N <- 100
+N <- 1000
 
-Xcat <-as.matrix(data.frame(cat1 = rep(1:4,each = N/4),
-                   cat2 = rep(1:5,each = N/5),
-                   cat2 = rep(1:10,each = N/10)))
+Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
+                   cat2 = rep(1:50,each = N/50),
+                   cat2 = rep(1:100,each = N/100)))
 
-p <- 3
-X <- matrix(rnorm(N*p),ncol = 3)
+p <- 30
+X <- matrix(rnorm(N*p),ncol = 30)
 
 
 Xcat_tmp <- disjMatrix(Xcat)
 # Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
 Xred <- as.matrix(cbind(X,Xcat_tmp))
 dim(Xred)
-pik <- rep(30/N,N)
+pik <- rep(300/N,N)
 A <- Xred/pik
 system.time(s1 <- fastcubeArma(X,Xcat,pik))
 sum(s1)

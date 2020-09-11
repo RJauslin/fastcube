@@ -140,7 +140,7 @@ fastcube <- function(X, Xcat, pik){
 
   while(i_size > 0){
     # print(dim(B))
-    print(i_size)
+    # print(i_size)
     # pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
 
 

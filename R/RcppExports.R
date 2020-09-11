@@ -100,7 +100,10 @@ onestep2 <- function(B, pik, EPS = 0.0000001) {
 
 #' @title title
 #'
-#' @param
+#' @param index
+#' @param index
+#' @param index
+#' @param index
 #'
 #' @return index updated index
 #'
