@@ -151,9 +151,7 @@ arma::vec fastcubeArma(arma::mat X,
   int howlong = N;
   i = rea(i,pik,done,howlong);
 
-  int step = 0;
-
-  while(done < N && step < 1000){
+  while(done < N){
     // std::cout << done << std::endl;
 
     B = findBarma(A.rows(i.subvec(done+1,N-1)),Xcat.rows(i.subvec(done+1,N-1)));
@@ -169,7 +167,6 @@ arma::vec fastcubeArma(arma::mat X,
     howlong = done + B.n_rows + 1  ;
     // std::cout << howlong << std::endl;
     i = rea(i,pik,done,howlong);
-    step = step + 1;
   }
   return(pik);
 }
