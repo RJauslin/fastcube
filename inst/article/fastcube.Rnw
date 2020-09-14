@@ -107,12 +107,7 @@ $ For each unit of the population, the inclusion probability $0\leq\pi_k\leq 1$ 
  \pi_k = \textrm{P}(k \in S) = \textrm{E}(\aaa_k) =  \sum_{s\in S | k \in s} p(s), \text{ for all } k\in U.
 \end{equation*}
 
-Let $\pig^\top=(\pi_1,\dots,\pi_N)$ be the vector of inclusion probabilities. Then, $\textrm{E}({\aaag})=\pig.$ Let also $\pi_{k\ell}$ be the probability of selecting the units $k$ and $\ell$ together in the sample, with $\pi_{kk} = \pi_k$. The matrix of second-order inclusion probabilities is given by $\Pi = \E(\aaag\aaag^\top)$. In many applications, inclusion probabilities are such that samples have a fixed size $n$. Let the set of all samples that have fixed size equal to $n$ be defined by
- \begin{equation*}\label{eq:sn} \mathcal{S}_n = \left\{ \aaag\in \{0,1\}^N ~~\bigg|~~ \sum_{k
-= 1}^N \aaa_k = n \right\} .
- \end{equation*}
-
-The sample is generally selected with the aim of estimating some population parameters. Let $y_k$ denote a real number associated with unit $k\in U$, usually called the variable of interest. For example, the total
+Let $\pig^\top=(\pi_1,\dots,\pi_N)$ be the vector of inclusion probabilities. Then, $\textrm{E}({\aaag})=\pig.$ Let also $\pi_{k\ell}$ be the probability of selecting the units $k$ and $\ell$ together in the sample, with $\pi_{kk} = \pi_k$. The matrix of second-order inclusion probabilities is given by $\Pi = \E(\aaag\aaag^\top)$. The sample is generally selected with the aim of estimating some population parameters. Let $y_k$ denote a real number associated with unit $k\in U$, usually called the variable of interest. For example, the total
 $$
 Y=\sum_{k\in U} y_k
 $$
@@ -122,24 +117,78 @@ can be estimated by using the classical Horvitz-Thompson estimator of the total 
 \end{equation}
 
 
-Usually, some auxiliary information $\xb_k^\top = (x_{k1},x_{k2},\dots,x_{kq}) \in\mathbb{R}^q$  regarding the population units is available.
-In the particular case of spatial sampling, a set of spatial coordinates  $\zb_k^\top = (z_{k1},z_{k2},\dots,z_{kp}) \in \mathbb{R}^p$ is supposed to be available, where $p$ is the dimension of the considered space. A sampling design is said to be balanced on the auxiliary variables $x_k$ if and only if it satisfies the balancing equations
-\begin{equation*}\label{eq:balance}
-  \widehat{\Xb} = \sum_{k\in S} \frac{\xb_k}{\pi_k} = \sum_{k\in U} \xb_k = \Xb.
-\end{equation*}
-
 
 %-----------------------------------------------------------------------------------
 %	Balanced Sampling
 %-----------------------------------------------------------------------------------
+
 \section{Balanced Sampling}
 
+Usually, some auxiliary information $\xb_k^\top = (x_{k1},x_{k2},\dots,x_{kq}) \in\mathbb{R}^q$  regarding the population units is available. A sampling design is said to be balanced on the auxiliary variables $x_k$ if and only if it satisfies the balancing equations
+\begin{equation*}\label{eq:balance}
+  \widehat{\Xb} = \sum_{k\in S} \frac{\xb_k}{\pi_k}  =  \sum_{k\in U} \frac{\xb_k a_k}{\pi_k}= \sum_{k\in U} \xb_k = \Xb.
+\end{equation*}
+Sometimes it is not possible to select a sample that satisfies exactly the constraint. We write $\widehat{\Xb} \approx \Xb$  to notice that the sample is approximately balanced. In many applications, inclusion probabilities are such that samples have a fixed size $n$. A sampling design of fixed size can be viewed as balanced on only one auxiliary variable $x_k = \pi_k$. Indeed, we have mathematically,
+\begin{equation*}
+\sum_{k\in S} \frac{x_k}{\pi_k} = \sum_{k \in S}\frac{\pi_k}{\pi_k} =  n_S.
+\end{equation*}
+Let denote the set of all samples that have fixed size equal to $n$ by
+ \begin{equation*}\label{eq:sn} \mathcal{S}_n = \left\{ \aaag\in \{0,1\}^N ~~\bigg|~~ \sum_{k
+= 1}^N \aaa_k = n \right\} .
+ \end{equation*}
+More generally, we write the problem of selecting a balanced sample by the following linear system :
+\begin{equation*}\left\{\begin{array}{lll}
+\displaystyle\sum_{k\in U}\frac{\xb_k a_k}{\pi_k} =\sum_{k\in U} \frac{\xb_k}{\pi_k}\pi_k\\
+a_k \in\{0,1\}, ~ k\in U.
 
+\end{array}\right.
+\end{equation*}
+Or also written in matrix form,
+\begin{equation}\label{eq:bal} \Ab\ab = \Ab\pig,
+\end{equation}
+where $\Ab= \left( \frac{\xb_1}{\pi_1},\dots, \frac{\xb_N}{\pi_N}\right)$. The aim consist then of obtaining a sample $\ab$ that satisfies the constraints.
 
 %-----------------------------------------------------------------------------------
 %	Cube Method
 %-----------------------------------------------------------------------------------
 \section{Cube Method}
+% \cite{dev:til:04a}
+The cube method select a sample that is balanced and respect the inclusion probabilities. The method can take equal or unequal inclusion probabilities. A each step , vector $\pig$ is randomly modified. The subspace induced by the linear system \eqref{eq:bal} is defined by the following,
+
+$$\begin{array}{cll}\mathcal{A} &=& \left\{ \ab \in \R^N | \Ab\ab = \Ab\pig \right\}\\
+&=& \pig + \text{Null}(\Ab),
+\end{array}
+$$
+where $\text{Null}(\Ab) = \left\{u \in \R^N | \Ab\ub = 0 \right\}$. The idea is then to use a vector of the null space of $\Ab$ such that we ensure to have martingale property of the updated inclusion probabilities. More specifically we have the following equation,
+$$ \E_p(\pig^t | \pig^{t-1}) = \E_p(\pig^{t-1}), \text{ for all t = 1,\dots, N}.$$
+At each step, at least one component is set to 0 or 1. Matrix A is updated from the new inclusion probabilities. This step is repeated until there is only one component that is not equal to 0 or 1. Algorithm \ref{algo:cube} present the full picture of the method.
+
+\begin{algorithm}
+\caption{flight phase of the cube Method}\label{algo:cube}
+Initializing $\pig^0$ by $\pig$, For $t = 1,\dots,N$, we repeat the three next steps:
+
+\begin{enumerate}
+\item Find $\ub^t \neq 0$ such that $u^t$ is inside of the null space of $\Zb^\top$ and $u_k^t = 0$ if $\pi_k^{t-1}$ is equal to 0 or 1.
+
+\item Calculate $\widetilde{\lambda_1^t}$ and $\widetilde{\lambda_2^t}$ the two greater value such that
+$$\begin{array}{ccccc} 0 &\leqslant & \pi_k^{t-1} + \lambda_1^t u_k^t \leqslant 1,\\
+0 &\leqslant & \pi_k^{t-1} - \lambda_2^t u_k^t \leqslant 1,\\
+ \end{array} \text{ for all } k \in U$$
+Observe that $\lambda_1^t $ and $\lambda_2^t$ are both greater than 0.
+ \item Update the inclusion probabilities using the rules :
+ $$\pig^t = \left\{\begin{array}{cccc}
+ \pig^{t-1} + \widetilde{\lambda_1^t}\ub^t & \text{ with probability } & q_1^t\\
+ \pig^{t-1} - \widetilde{\lambda_2^t}\ub^t & \text{ with probability } & q_2^t
+ \end{array}\right.$$
+ where $q_1^t = \widetilde{\lambda_2^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$ and  $q_2^t = \widetilde{\lambda_1^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$
+
+\end{enumerate}
+We repeat these 3 steps until it is no more possible to find a vector $\ub$ that is inside of the null space.
+\end{algorithm}
+
+
+
+\subsection{}
 
 
 %-----------------------------------------------------------------------------------
@@ -159,5 +208,7 @@ In the particular case of spatial sampling, a set of spatial coordinates  $\zb_k
 
 \section{Discussion}
 
+\bibliography{bibyves}
+\bibliographystyle{apalike}
 
 \end{document}
