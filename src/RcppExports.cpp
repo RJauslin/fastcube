@@ -6,15 +6,27 @@
 
 using namespace Rcpp;
 
-// flightphaseModif
-NumericVector flightphaseModif(NumericVector prob, NumericMatrix Xbal);
-RcppExport SEXP _fastcube_flightphaseModif(SEXP probSEXP, SEXP XbalSEXP) {
+// chooseRec
+long long int chooseRec(int n, int k);
+RcppExport SEXP _fastcube_chooseRec(SEXP nSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type prob(probSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type Xbal(XbalSEXP);
-    rcpp_result_gen = Rcpp::wrap(flightphaseModif(prob, Xbal));
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(chooseRec(n, k));
+    return rcpp_result_gen;
+END_RCPP
+}
+// choose
+long long int choose(int n, int k);
+RcppExport SEXP _fastcube_choose(SEXP nSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(choose(n, k));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -63,159 +75,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// onestep2
-arma::vec onestep2(arma::mat B, arma::vec pik, double EPS);
-RcppExport SEXP _fastcube_onestep2(SEXP BSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
+// samplen
+arma::mat samplen(int N, int n);
+RcppExport SEXP _fastcube_samplen(SEXP NSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
-    rcpp_result_gen = Rcpp::wrap(onestep2(B, pik, EPS));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rea
-arma::uvec rea(arma::uvec& index, const arma::vec& pik, int& done, const int howlong);
-RcppExport SEXP _fastcube_rea(SEXP indexSEXP, SEXP pikSEXP, SEXP doneSEXP, SEXP howlongSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::uvec& >::type index(indexSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< int& >::type done(doneSEXP);
-    Rcpp::traits::input_parameter< const int >::type howlong(howlongSEXP);
-    rcpp_result_gen = Rcpp::wrap(rea(index, pik, done, howlong));
-    return rcpp_result_gen;
-END_RCPP
-}
-// fastcubeArma
-arma::vec fastcubeArma(arma::mat X, arma::umat Xcat, arma::vec pik);
-RcppExport SEXP _fastcube_fastcubeArma(SEXP XSEXP, SEXP XcatSEXP, SEXP pikSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::umat >::type Xcat(XcatSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    rcpp_result_gen = Rcpp::wrap(fastcubeArma(X, Xcat, pik));
-    return rcpp_result_gen;
-END_RCPP
-}
-// isEye2
-bool isEye2(arma::mat& M);
-RcppExport SEXP _fastcube_isEye2(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(isEye2(M));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rrefArma2
-void rrefArma2(arma::mat& M);
-RcppExport SEXP _fastcube_rrefArma2(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
-    rrefArma2(M);
-    return R_NilValue;
-END_RCPP
-}
-// osffphase2
-arma::vec osffphase2(arma::vec prob, arma::mat Bm);
-RcppExport SEXP _fastcube_osffphase2(SEXP probSEXP, SEXP BmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type prob(probSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Bm(BmSEXP);
-    rcpp_result_gen = Rcpp::wrap(osffphase2(prob, Bm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ffphase
-arma::vec ffphase(arma::vec prob, arma::mat Xbal, bool redux);
-RcppExport SEXP _fastcube_ffphase(SEXP probSEXP, SEXP XbalSEXP, SEXP reduxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type prob(probSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Xbal(XbalSEXP);
-    Rcpp::traits::input_parameter< bool >::type redux(reduxSEXP);
-    rcpp_result_gen = Rcpp::wrap(ffphase(prob, Xbal, redux));
-    return rcpp_result_gen;
-END_RCPP
-}
-// isEye
-bool isEye(arma::mat& M);
-RcppExport SEXP _fastcube_isEye(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
-    rcpp_result_gen = Rcpp::wrap(isEye(M));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rrefArma
-void rrefArma(arma::mat& M);
-RcppExport SEXP _fastcube_rrefArma(SEXP MSEXP) {
-BEGIN_RCPP
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type M(MSEXP);
-    rrefArma(M);
-    return R_NilValue;
-END_RCPP
-}
-// osffphase
-arma::vec osffphase(arma::vec prob, arma::mat Bm);
-RcppExport SEXP _fastcube_osffphase(SEXP probSEXP, SEXP BmSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type prob(probSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Bm(BmSEXP);
-    rcpp_result_gen = Rcpp::wrap(osffphase(prob, Bm));
-    return rcpp_result_gen;
-END_RCPP
-}
-// onestep
-arma::vec onestep(arma::mat B, arma::vec pik, double EPS);
-RcppExport SEXP _fastcube_onestep(SEXP BSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
-    rcpp_result_gen = Rcpp::wrap(onestep(B, pik, EPS));
-    return rcpp_result_gen;
-END_RCPP
-}
-// flightphase_arma
-arma::vec flightphase_arma(arma::mat X, arma::vec pik, bool redux);
-RcppExport SEXP _fastcube_flightphase_arma(SEXP XSEXP, SEXP pikSEXP, SEXP reduxSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< bool >::type redux(reduxSEXP);
-    rcpp_result_gen = Rcpp::wrap(flightphase_arma(X, pik, redux));
-    return rcpp_result_gen;
-END_RCPP
-}
-// reduxArma
-Rcpp::List reduxArma(arma::mat B);
-RcppExport SEXP _fastcube_reduxArma(SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(reduxArma(B));
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(samplen(N, n));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -230,55 +98,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// onestep5
-arma::vec onestep5(arma::mat B, arma::vec pik, double EPS);
-RcppExport SEXP _fastcube_onestep5(SEXP BSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type B(BSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
-    rcpp_result_gen = Rcpp::wrap(onestep5(B, pik, EPS));
-    return rcpp_result_gen;
-END_RCPP
-}
-// flightphase_arma5
-arma::vec flightphase_arma5(arma::mat X, arma::vec pik, double EPS);
-RcppExport SEXP _fastcube_flightphase_arma5(SEXP XSEXP, SEXP pikSEXP, SEXP EPSSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type pik(pikSEXP);
-    Rcpp::traits::input_parameter< double >::type EPS(EPSSEXP);
-    rcpp_result_gen = Rcpp::wrap(flightphase_arma5(X, pik, EPS));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_fastcube_flightphaseModif", (DL_FUNC) &_fastcube_flightphaseModif, 2},
+    {"_fastcube_chooseRec", (DL_FUNC) &_fastcube_chooseRec, 2},
+    {"_fastcube_choose", (DL_FUNC) &_fastcube_choose, 2},
     {"_fastcube_disj", (DL_FUNC) &_fastcube_disj, 1},
     {"_fastcube_ncat", (DL_FUNC) &_fastcube_ncat, 1},
     {"_fastcube_disjMatrix", (DL_FUNC) &_fastcube_disjMatrix, 1},
     {"_fastcube_findBarma", (DL_FUNC) &_fastcube_findBarma, 2},
-    {"_fastcube_onestep2", (DL_FUNC) &_fastcube_onestep2, 3},
-    {"_fastcube_rea", (DL_FUNC) &_fastcube_rea, 4},
-    {"_fastcube_fastcubeArma", (DL_FUNC) &_fastcube_fastcubeArma, 3},
-    {"_fastcube_isEye2", (DL_FUNC) &_fastcube_isEye2, 1},
-    {"_fastcube_rrefArma2", (DL_FUNC) &_fastcube_rrefArma2, 1},
-    {"_fastcube_osffphase2", (DL_FUNC) &_fastcube_osffphase2, 2},
-    {"_fastcube_ffphase", (DL_FUNC) &_fastcube_ffphase, 3},
-    {"_fastcube_isEye", (DL_FUNC) &_fastcube_isEye, 1},
-    {"_fastcube_rrefArma", (DL_FUNC) &_fastcube_rrefArma, 1},
-    {"_fastcube_osffphase", (DL_FUNC) &_fastcube_osffphase, 2},
-    {"_fastcube_onestep", (DL_FUNC) &_fastcube_onestep, 3},
-    {"_fastcube_flightphase_arma", (DL_FUNC) &_fastcube_flightphase_arma, 3},
-    {"_fastcube_reduxArma", (DL_FUNC) &_fastcube_reduxArma, 1},
+    {"_fastcube_samplen", (DL_FUNC) &_fastcube_samplen, 2},
     {"_fastcube_systematicDesign", (DL_FUNC) &_fastcube_systematicDesign, 1},
-    {"_fastcube_onestep5", (DL_FUNC) &_fastcube_onestep5, 3},
-    {"_fastcube_flightphase_arma5", (DL_FUNC) &_fastcube_flightphase_arma5, 3},
     {NULL, NULL, 0}
 };
 

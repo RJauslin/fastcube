@@ -1,30 +1,3 @@
-
-
-
-
-
-#' Internal function of ReducedSamplecube
-#' @noRd
-onestep <- function(B,pik,EPS){
-
-  kern <- MASS::Null(B)
-  N <- length(pik)
-  u = kern[,1]
-
-  l1=min(pmax((1-pik)/u,-pik/u))
-  l2=min(pmax((pik-1)/u,pik/u))
-
-  if(runif(1) < l2/(l1+l2)){
-    l = l1;
-  }else{
-    l = -l2;
-  }
-  pik = pik + l*u
-
-  return(pik);
-}
-
-
 #' @title Cube method with reduction of the auxiliary variables matrix
 #'
 #' @description Modified cube method.
@@ -85,7 +58,9 @@ onestep <- function(B,pik,EPS){
 #' A <- Xred/pik
 #'
 #'
-#' system.time(s1 <- fastcube(X,Xcat,pik))
+#' system.time(s1 <- fastcube(Xred,pik))
+#' system.time(s1 <- fastcube(X,pik,Xcat))
+#' system.time(s1 <- fastcube(X,pik))
 #' as.vector(t(A)%*%s1)
 #' as.vector(t(A)%*%pik)
 #'
@@ -105,8 +80,7 @@ onestep <- function(B,pik,EPS){
 #' as.vector(t(A)%*%pik)
 #'
 #' }
-fastcube <- function(X, Xcat, pik){
-
+fastcube <- function(X, pik, Xcat){
 
 
   ##----------------------------------------------------------------
@@ -114,11 +88,18 @@ fastcube <- function(X, Xcat, pik){
   ##----------------------------------------------------------------
 
 
+
   EPS = 1e-8
   A = X/pik
   p = ncol(X)
-  # ncat <- sum(apply(Xcat,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
-  n_all_cat <- sum(ncat(Xcat))
+  if(!missing(Xcat)){
+    CAT = TRUE
+    n_all_cat <- sum(ncat(Xcat))
+  }else{
+    CAT = FALSE
+    n_all_cat <- 0
+  }
+
 
 
   ##----------------------------------------------------------------
@@ -127,27 +108,12 @@ fastcube <- function(X, Xcat, pik){
 
   i <- which(pik > EPS & pik < (1-EPS))
   i_size = length(i)
-  # B <- findB(A[i,],Xcat[i,])
-
-  # i <- which(pik > EPS & pik < (1-EPS))[1:(J+1)]
-  # i_size = length(i)
-
-
 
   ##---------------------------------------------------------------
   ##                          Main loop                           -
   ##---------------------------------------------------------------
 
   while(i_size > 0){
-    # print(dim(B))
-    # print(i_size)
-    # pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
-
-
-
-
-
-
 
     ##-----------------------------------
     ##  Depending if we have enough row
@@ -155,14 +121,15 @@ fastcube <- function(X, Xcat, pik){
 
     if(i_size <= p + n_all_cat){
 
-      # if(ncol(as.matrix(Xcat[i,])) == 1){
-      #   Xdev <- model.matrix(~as.factor(as.matrix(Xcat[i,]))-1)
-      # }else{
-      #   Xdev <- as.matrix(do.call(cbind,apply(as.matrix(Xcat[i,]),MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))})))
-      # }
+      if(CAT == TRUE){
+        Xdev <- disjMatrix(Xcat[i,])
+        B <- cbind(A[i,],Xdev)
+      }else{
+        B <- A[i,]
+      }
 
-      Xdev <- disjMatrix(Xcat[i,])
-      B <- cbind(A[i,],Xdev)
+
+
       if(i_size > EPS){
         kern <- MASS::Null(B)
         if(length(kern)==0){
@@ -171,11 +138,13 @@ fastcube <- function(X, Xcat, pik){
       }
       pik[i] <- onestep(B,pik[i],EPS)
 
-
-
-
     }else{
-      B <- findB(A[i,],Xcat[i,])
+
+      if(CAT == TRUE){
+        B <- findB(A[i,],Xcat[i,])
+      }else{
+        B <- A[i[1:(p+1)],]
+      }
       pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
     }
 
@@ -187,8 +156,6 @@ fastcube <- function(X, Xcat, pik){
     i_size = length(i)
 
   }
-
-
   return(pik)
 }
 

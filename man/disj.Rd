@@ -2,18 +2,23 @@
 % Please edit documentation in R/RcppExports.R
 \name{disj}
 \alias{disj}
-\title{disj}
+\title{disjunctive vector}
 \usage{
 disj(strata)
 }
 \arguments{
-\item{strata}{vector of integer}
+\item{strata}{A vector of integer that represents the category.}
 }
 \value{
-vector
+A matrix of indicators.
 }
 \description{
-disjunctive
+This function transform a categorical variable into a matrix of indicators.
+}
+\examples{
+  strata <- rep(c(1,2,3),each = 4)
+  disj(strata)
+
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}

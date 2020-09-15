@@ -2,18 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{ncat}
 \alias{ncat}
-\title{ncat}
+\title{number of category}
 \usage{
 ncat(Xcat)
 }
 \arguments{
-\item{Xcat}{Matrix}
+\item{Xcat}{A matrix of integer that contains categorical variable in column.}
 }
 \value{
-vector
+A row vector that contains the number of category in each column.
 }
 \description{
-number of cat in each column
+This function returns the number of factor in each column of a categorical matrix.
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}

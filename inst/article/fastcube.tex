@@ -154,34 +154,36 @@ $$\begin{array}{cll}\mathcal{A} &=& \left\{ \ab \in \R^N | \Ab\ab = \Ab\pig \rig
 $$
 where $\text{Null}(\Ab) = \left\{u \in \R^N | \Ab\ub = 0 \right\}$. The idea is then to use a vector of the null space of $\Ab$ such that we ensure to have martingale property of the updated inclusion probabilities. More specifically we have the following equation,
 $$ \E_p(\pig^t | \pig^{t-1}) = \E_p(\pig^{t-1}), \text{ for all t = 1,\dots, N}.$$
-At each step, at least one component is set to 0 or 1. Matrix A is updated from the new inclusion probabilities. This step is repeated until there is only one component that is not equal to 0 or 1. Algorithm \ref{algo:cube} present the full picture of the method.
+At each step, at least one component is set to 0 or 1. Matrix A is updated from the new inclusion probabilities. This step is repeated until there is only one component that is not equal to 0 or 1. Algorithm \ref{algo:cube} present the full picture of the method. \cite{cha:til:06}
 
 \begin{algorithm}
-\caption{flight phase of the cube Method}\label{algo:cube}
-Initializing $\pig^0$ by $\pig$, For $t = 1,\dots,N$, we repeat the three next steps:
+\caption{fast flight phase of the cube Method}\label{algo:cube}
+Calculate at first $i$ the number of inclusion probabilities that are not equal to 0 or 1. Let $\pig$ be equal to the $i$ corresponding inclusion probabilities and initializing $\pig^1$ by $\pig$. For $t = 1,\dots,N$, we repeat :
 
 \begin{enumerate}
-\item Find $\ub^t \neq 0$ such that $u^t$ is inside of the null space of $\Zb^\top$ and $u_k^t = 0$ if $\pi_k^{t-1}$ is equal to 0 or 1.
+
+\item Find $\widetilde{\pig}^t$ the first $J$ entries of the inclusion probabilities $\pig^t$, where $J = \min(p+1,i)$. Define $\Bb$ as the $J$ corresponding rows of the matrix $A$. Notice that the matrix $\Bb$ is either a $(p+1)\times p$ matrix or a $i \times p$ matrix.
+
+
+\item Find a non null vector $\widetilde{\ub}^t$ inside of the null space of $\Bb$. Define $\ub^t$ as the expanded null vector such that $u_k^t = 0$ for all entry that is not equal to the corresponding $J$ values.
 
 \item Calculate $\widetilde{\lambda_1^t}$ and $\widetilde{\lambda_2^t}$ the two greater value such that
-$$\begin{array}{ccccc} 0 &\leqslant & \pi_k^{t-1} + \lambda_1^t u_k^t \leqslant 1,\\
-0 &\leqslant & \pi_k^{t-1} - \lambda_2^t u_k^t \leqslant 1,\\
+$$\begin{array}{ccccc} 0 &\leqslant & \pi_k^{t} + \lambda_1^t u_k^t \leqslant 1,\\
+0 &\leqslant & \pi_k^{t} - \lambda_2^t u_k^t \leqslant 1,\\
  \end{array} \text{ for all } k \in U$$
 Observe that $\lambda_1^t $ and $\lambda_2^t$ are both greater than 0.
  \item Update the inclusion probabilities using the rules :
- $$\pig^t = \left\{\begin{array}{cccc}
- \pig^{t-1} + \widetilde{\lambda_1^t}\ub^t & \text{ with probability } & q_1^t\\
- \pig^{t-1} - \widetilde{\lambda_2^t}\ub^t & \text{ with probability } & q_2^t
+ $$\pig^{t+1} = \left\{\begin{array}{cccc}
+ \pig^{t} + \widetilde{\lambda_1^t}\ub^t & \text{ with probability } & q_1^t\\
+ \pig^{t} - \widetilde{\lambda_2^t}\ub^t & \text{ with probability } & q_2^t
  \end{array}\right.$$
- where $q_1^t = \widetilde{\lambda_2^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$ and  $q_2^t = \widetilde{\lambda_1^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$
-
+ where $q_1^t = \widetilde{\lambda_2^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$ and  $q_2^t = \widetilde{\lambda_1^t}/(\widetilde{\lambda_1^t} + \widetilde{\lambda_2^t})$.
+\item Update $i$ the number of inclusion probabilities not equal to 0 or 1.
 \end{enumerate}
-We repeat these 3 steps until it is no more possible to find a vector $\ub$ that is inside of the null space.
+We repeat these steps until it is no more possible to find a vector $ \widetilde{\ub}^t$ that is inside of the null space.
 \end{algorithm}
 
 
-
-\subsection{}
 
 
 %-----------------------------------------------------------------------------------

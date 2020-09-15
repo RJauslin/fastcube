@@ -4,7 +4,7 @@
 \alias{fastcube}
 \title{Cube method with reduction of the auxiliary variables matrix}
 \usage{
-fastcube(X, Xcat, pik)
+fastcube(X, pik, Xcat)
 }
 \arguments{
 \item{X}{a matrix of size (N x p) of auxiliary variables on which the sample must be balanced.}
@@ -55,7 +55,9 @@ pik <- rep(300/N,N)
 A <- Xred/pik
 
 
-system.time(s1 <- fastcube(X,Xcat,pik))
+system.time(s1 <- fastcube(Xred,pik))
+system.time(s1 <- fastcube(X,pik,Xcat))
+system.time(s1 <- fastcube(X,pik))
 as.vector(t(A)\%*\%s1)
 as.vector(t(A)\%*\%pik)
 

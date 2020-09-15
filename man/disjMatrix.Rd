@@ -2,18 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{disjMatrix}
 \alias{disjMatrix}
-\title{disjMatrix}
+\title{disjunctive Matrix}
 \usage{
 disjMatrix(strata)
 }
 \arguments{
-\item{starta}{a Matrix}
+\item{A}{matrix of integer that contains categorical variable in column.}
 }
 \value{
-a matrix
+A matrix of indicators.
 }
 \description{
-disj on each column
+This function transform a categorical matrix into a matrix of indicators variables.
 }
 \author{
 Raphaël Jauslin \email{raphael.jauslin@unine.ch}

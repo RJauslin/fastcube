@@ -30,7 +30,6 @@ findB <- function(X,
   pInit <- ncol(X)
 
   Xcat_tmp <- Xcat[1:(pInit+1),]
-  # ncat <- sum(apply(as.matrix(Xcat_tmp),MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
   n_all_cat <- sum(ncat(Xcat_tmp))
   n_all_cat_tmp <- 0
 
@@ -38,27 +37,11 @@ findB <- function(X,
     n_all_cat_tmp = n_all_cat
     p =  pInit  + n_all_cat
     Xcat_tmp <- Xcat[1:(p+1),]
-    # ncat <- sum(apply(as.matrix(Xcat_tmp),MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
     n_all_cat <- sum(ncat(Xcat_tmp))
   }
 
   Xcat_tmp <- as.matrix(Xcat_tmp)
   Xdev <- disjMatrix(Xcat_tmp)
-  # if(ncol(Xcat_tmp) == 1){
-  #   if(all(Xcat_tmp[,1] == Xcat_tmp[1,1])){
-  #     Xdev <- Xcat_tmp
-  #   }else{
-  #     Xdev <- model.matrix(~as.factor(Xcat_tmp)-1)
-  #   }
-  # }else{
-  #   Xdev <- as.matrix(do.call(cbind,apply(Xcat_tmp,MARGIN = 2,FUN <- function(x){
-  #     if(all(x == 1)){
-  #       return(as.matrix(x))
-  #     }else{
-  #       return(as.matrix(model.matrix(~as.factor(x)-1)))
-  #     }
-  #   })))
-  # }
 
   return(cbind(X[1:(p+1),],Xdev))
 

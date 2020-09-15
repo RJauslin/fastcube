@@ -1,18 +1,20 @@
 #include <RcppArmadillo.h>
 
-
-
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title disj
+//' @title disjunctive vector
 //'
 //' @description
-//'  disjunctive
+//' This function transform a categorical variable into a matrix of indicators.
 //'
-//' @param strata vector of integer
+//' @param strata A vector of integer that represents the category.
 //'
-//' @return vector
+//' @return A matrix of indicators.
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
+//'
+//' @examples
+//'   strata <- rep(c(1,2,3),each = 4)
+//'   disj(strata)
 //'
 //' @export
 // [[Rcpp::export]]
@@ -35,12 +37,10 @@ arma::umat disj(arma::uvec strata) {
 }
 
 
-
-
-
-
 /***R
 strata=c(-2,3,-2,3,4,4,4,-2,-2,3,4,0,0,0)
+
+strata <- rep(c(1,2,3),each = 4)
 disj(strata)
 
 
@@ -59,45 +59,41 @@ system.time(M <- model.matrix(~as.factor(strata)-1))
 system.time(M <- sampling::disjunctive(strata))
 
 
-
 */
 
 
 
-
-
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title ncat
+//' @title number of category
 //'
 //' @description
-//' number of cat in each column
+//' This function returns the number of factor in each column of a categorical matrix.
 //'
-//' @param Xcat Matrix
+//' @param Xcat A matrix of integer that contains categorical variable in column.
 //'
-//' @return vector
+//' @return A row vector that contains the number of category in each column.
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 //'
 //' @export
 // [[Rcpp::export]]
-arma::rowvec ncat(arma::umat Xcat) {
+arma::rowvec ncat(arma::umat Xcat){
   int p = Xcat.n_cols;
-  arma::rowvec ncat(p,arma::fill::zeros);
-  for(arma::uword i = 0; i < p;i++){
+  arma::rowvec out(p,arma::fill::zeros);
+  for(arma::uword i = 0; i < p; i++){
     arma::uvec cat = unique(Xcat.col(i));
     int tmp = cat.size();
-    ncat(i) = tmp;
+    out(i) = tmp;
   }
-  return(ncat);
+  return(out);
 }
 
 /***R
 rm(list = ls())
 Xcat <-  sample(x = 1:6, size = 100, replace = TRUE)
-for(i in 1:1000){
+for(i in 1:10000){
   Xcat <- cbind(Xcat, sample(x = 1:6, size = 100, replace = TRUE))
 }
-
 system.time(n <- apply(Xcat,MARGIN = 2,FUN <- function(x){nlevels(as.factor(x))}))
 system.time(test <- ncat(Xcat))
 
@@ -106,14 +102,14 @@ system.time(test <- ncat(Xcat))
 
 
 // [[Rcpp::depends(RcppArmadillo)]]
-//' @title disjMatrix
+//' @title disjunctive Matrix
 //'
 //' @description
-//' disj on each column
+//' This function transform a categorical matrix into a matrix of indicators variables.
 //'
-//' @param starta a Matrix
+//' @param A matrix of integer that contains categorical variable in column.
 //'
-//' @return a matrix
+//' @return A matrix of indicators.
 //'
 //' @author Raphaël Jauslin \email{raphael.jauslin@@unine.ch}
 //'
@@ -162,6 +158,7 @@ for(i in 1:1000){
 
 system.time(test <- apply(as.matrix(Xcat),MARGIN = 2,FUN <- function(x){as.matrix(model.matrix(~as.factor(x)-1))}))
 system.time(test <-  disjMatrix(Xcat))
+
 
 
 disjMatrix(as.matrix(Xcat[,1]))
