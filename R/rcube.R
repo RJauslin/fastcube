@@ -43,7 +43,7 @@
 #' sum(s)
 #'
 #' @export
-ReducedSamplecube <- function(X, pik, redux = TRUE){
+rcube <- function(X, pik, redux = TRUE){
 
   ##----------------------------------------------------------------
   ##                        Initialization                         -
@@ -88,16 +88,35 @@ ReducedSamplecube <- function(X, pik, redux = TRUE){
     ##-----------------------
 
     if(redux == TRUE){
-      pik_tmp <- pik[i]
+      # pik_tmp <- pik[i]
       # tmp <- ReducedMatrix(B)
-      tmp <- reduxArma(B)
-      print(dim(tmp$B))
+      # B_tmp <- tmp$B
+      # pik_tmp[tmp$ind_row]<- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
+      # pik[i] <- pik_tmp
+
+      pik_tmp <- pik[i]
+      tmp <- ReducedMatrix(B)
       B_tmp <- tmp$B
-      pik_tmp[tmp$ind_row]<- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
-      pik[i] <- pik_tmp
+
+
+      check <- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
+      if(is.null(check)){
+        break;
+      }else{
+        pik_tmp[tmp$ind_row]<- check
+        pik[i] <- pik_tmp
+      }
+
 
     }else{
-      pik[i] <- onestep(B,pik[i],EPS)
+
+      check <- onestep(B,pik[i],EPS)
+      if(is.null(check)){
+        break;
+      }else{
+        pik[i] <- check
+      }
+
     }
 
 
@@ -114,18 +133,11 @@ ReducedSamplecube <- function(X, pik, redux = TRUE){
     ##  Depending if we have enough row
     ##-----------------------------------
 
-
     if(i_size >= (J+1)){
       i <- i[1:(J+1)]
-      B = A[i,]
-    }else{
-      # break;
-      B = A[i,]
-      kern <- MASS::Null(B)
-      if(length(kern)==0){
-      break;
-      }
     }
+    B <-A[i,]
+
   }
 
 

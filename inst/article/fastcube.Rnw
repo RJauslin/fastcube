@@ -153,8 +153,8 @@ where $\Ab= \left( \frac{\xb_1}{\pi_1},\dots, \frac{\xb_N}{\pi_N}\right)$. The a
 %	Cube Method
 %-----------------------------------------------------------------------------------
 \section{Cube Method}
-% \cite{dev:til:04a}
-The cube method select a sample that is balanced and respect the inclusion probabilities. The method can take equal or unequal inclusion probabilities. A each step , vector $\pig$ is randomly modified. The subspace induced by the linear system \eqref{eq:bal} is defined by the following,
+
+\cite{dev:til:04a} developed the cube method. It selects a sample that is balanced and respect the inclusion probabilities. The method can take equal or unequal inclusion probabilities. A each step , vector $\pig$ is randomly modified. The subspace induced by the linear system \eqref{eq:bal} is defined by the following,
 
 $$\begin{array}{cll}\mathcal{A} &=& \left\{ \ab \in \R^N | \Ab\ab = \Ab\pig \right\}\\
 &=& \pig + \text{Null}(\Ab),
@@ -162,7 +162,7 @@ $$\begin{array}{cll}\mathcal{A} &=& \left\{ \ab \in \R^N | \Ab\ab = \Ab\pig \rig
 $$
 where $\text{Null}(\Ab) = \left\{u \in \R^N | \Ab\ub = 0 \right\}$. The idea is then to use a vector of the null space of $\Ab$ such that we ensure to have martingale property of the updated inclusion probabilities. More specifically we have the following equation,
 $$ \E_p(\pig^t | \pig^{t-1}) = \E_p(\pig^{t-1}), \text{ for all t = 1,\dots, N}.$$
-At each step, at least one component is set to 0 or 1. Matrix A is updated from the new inclusion probabilities. This step is repeated until there is only one component that is not equal to 0 or 1. Algorithm \ref{algo:cube} present the full picture of the method. \cite{cha:til:06}
+At each step, at least one component is set to 0 or 1. Matrix A is updated from the new inclusion probabilities. This step is repeated until there is only one component that is not equal to 0 or 1. Algorithm \ref{algo:cube} present the full picture of the method. \cite{cha:til:06} have improved the time consuming cost by using a sub-matrix of smaller size to find a vector that is inside of the null space of $\Ab$. In the next section we present the proposed strategy to improved even more this cost.
 
 \begin{algorithm}
 \caption{fast flight phase of the cube Method}\label{algo:cube}

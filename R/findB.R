@@ -1,9 +1,18 @@
-#' Title
+#' find the sub-matrix B in the flight phase
 #'
-#' @param Xaux
-#' @param Xcat
+#' @description
+#' This function is used in the \code{\link{ffphase}} function to find the smallest matrix B.
 #'
-#' @return
+#' @param X matrix of auxiliary variables.
+#' @param Xcat matrix of categorical variables.
+#'
+#' @details
+#'
+#' The function find the smallest matrix B such that is contains only one additional row.
+#'  It consecutively add the right number of row depending of the number of categroies that is added.
+#'
+#' @return matrix B
+#'
 #' @export
 #'
 #' @examples
@@ -44,6 +53,5 @@ findB <- function(X,
   Xdev <- disjMatrix(Xcat_tmp)
 
   return(cbind(X[1:(p+1),],Xdev))
-
 
 }

@@ -2,18 +2,24 @@
 % Please edit documentation in R/findB.R
 \name{findB}
 \alias{findB}
-\title{Title}
+\title{find the sub-matrix B in the flight phase}
 \usage{
 findB(X, Xcat)
 }
 \arguments{
-\item{Xcat}{}
+\item{X}{matrix of auxiliary variables.}
+
+\item{Xcat}{matrix of categorical variables.}
 }
 \value{
-
+matrix B
 }
 \description{
-Title
+This function is used in the \code{\link{ffphase}} function to find the smallest matrix B.
+}
+\details{
+The function find the smallest matrix B such that is contains only one additional row.
+ It consecutively add the right number of row depending of the number of categroies that is added.
 }
 \examples{
 rm(list = ls())

@@ -4,6 +4,9 @@
 onestep <- function(B,pik,EPS){
 
   kern <- MASS::Null(B)
+  if(length(kern) == 0){
+    return(NULL)
+  }
   N <- length(pik)
   u = kern[,1]
 

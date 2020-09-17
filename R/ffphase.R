@@ -80,13 +80,11 @@
 #' as.vector(t(A)%*%pik)
 #'
 #' }
-fastcube <- function(X, pik, Xcat){
-
+ffphase <- function(X, pik, Xcat){
 
   ##----------------------------------------------------------------
   ##                        Initialization                         -
   ##----------------------------------------------------------------
-
 
 
   EPS = 1e-8
@@ -115,38 +113,33 @@ fastcube <- function(X, pik, Xcat){
 
   while(i_size > 0){
 
+
     ##-----------------------------------
-    ##  Depending if we have enough row
+    ##  Find B
     ##-----------------------------------
+
 
     if(i_size <= p + n_all_cat){
-
       if(CAT == TRUE){
         Xdev <- disjMatrix(Xcat[i,])
         B <- cbind(A[i,],Xdev)
       }else{
         B <- A[i,]
       }
-
-
-
-      if(i_size > EPS){
-        kern <- MASS::Null(B)
-        if(length(kern)==0){
-          break;
-        }
-      }
-      pik[i] <- onestep(B,pik[i],EPS)
-
     }else{
-
       if(CAT == TRUE){
         B <- findB(A[i,],Xcat[i,])
       }else{
         B <- A[i[1:(p+1)],]
       }
-      pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
     }
+    tmp <-  onestep(B,pik[i[1:nrow(B)]],EPS)
+    if(is.null(tmp)){
+      break;
+    }else{
+      pik[i[1:nrow(B)]] <- tmp
+    }
+
 
     ##------------
     ##  update i
@@ -154,6 +147,62 @@ fastcube <- function(X, pik, Xcat){
 
     i <- which(pik > EPS & pik < (1-EPS))
     i_size = length(i)
+
+
+    # ##-----------------------------------
+    # ##  Depending if we have enough row
+    # ##-----------------------------------
+    #
+    # if(i_size <= p + n_all_cat){
+    #
+    #   if(CAT == TRUE){
+    #     Xdev <- disjMatrix(Xcat[i,])
+    #     B <- cbind(A[i,],Xdev)
+    #   }else{
+    #     B <- A[i,]
+    #   }
+    #
+    #
+    #
+    #   # if(i_size > EPS){
+    #   #   kern <- MASS::Null(B)
+    #   #   if(length(kern)==0){
+    #   #     break;
+    #   #   }
+    #   # }
+    #   # pik[i] <- onestep(B,pik[i],EPS)
+    #
+    #   tmp <-  onestep(B,pik[i],EPS)
+    #   if(is.null(tmp)){
+    #     break;
+    #   }else{
+    #     pik[i] <- tmp
+    #   }
+    #
+    # }else{
+    #
+    #   if(CAT == TRUE){
+    #     B <- findB(A[i,],Xcat[i,])
+    #   }else{
+    #     B <- A[i[1:(p+1)],]
+    #   }
+    #
+    #   tmp <-  onestep(B,pik[i[1:nrow(B)]],EPS)
+    #   if(is.null(tmp)){
+    #     break;
+    #   }else{
+    #     pik[i[1:nrow(B)]] <- tmp
+    #   }
+    #
+    #   # pik[i[1:nrow(B)]] <- onestep(B,pik[i[1:nrow(B)]],EPS)
+    # }
+    #
+    # ##------------
+    # ##  update i
+    # ##------------
+    #
+    # i <- which(pik > EPS & pik < (1-EPS))
+    # i_size = length(i)
 
   }
   return(pik)
