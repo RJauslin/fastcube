@@ -27,121 +27,59 @@
 #' @seealso \code{\link[sampling:samplecube]{samplecube}}, \code{\link[sampling:landingcube]{landingcube}}, \code{\link{ReducedFlightphase}}, \code{\link{ReducedMatrix}}
 #'
 #'
-#' @examples
-#' set.seed(1)
-#' ## Matrix of 8 auxilary variables and 10 units with lot of 0s ##
-#'
-#' ## Inclusion probabilities with 10 units ##
-#' pik <- sampling::inclusionprobabilities(runif(40),10)
-#' X   <- matrix(sample(c(0,0,0,1),240,replace=TRUE), nrow = 40, ncol =  8)
-#' X <- cbind(pik,X)
-#' ## Cube method ##
-#' s <- ReducedSamplecube(X, pik)
-#' # s <- sampling::samplecube(X,pik)
-#' s
-#' sum(pik)
-#' sum(s)
-#'
 #' @export
-rcube <- function(X, pik, redux = TRUE){
+#' @examples
+#' \dontrun{
+#'
+#'
+#' ########################################################
+#'
+#'
+#' rm(list = ls())
+#'
+#' library(sampling)
+#'
+#' N <- 1000
+#'
+#' Xcat <-as.matrix(data.frame(cat1 = rep(1:40,each = N/40),
+#'                     cat2 = rep(1:50,each = N/50),
+#'                     cat2 = rep(1:100,each = N/100)))
+#'
+#'
+#' p <- 30
+#' X <- matrix(rnorm(N*p),ncol = 30)
+#'
+#'
+#' Xcat_tmp <- disjMatrix(Xcat)
+#' Xcat_tmp <- do.call(cbind,apply(Xcat,MARGIN = 2,disjunctive))
+#' Xred <- as.matrix(cbind(X,Xcat_tmp))
+#'
+#' pik <- rep(300/N,N)
+#' A <- Xred/pik
+#'
+#' s <- fcube(X,pik,Xcat)
+#'
+#' }
+rcube <- function(X, pik, method = "RM"){
 
-  ##----------------------------------------------------------------
-  ##                        Initialization                         -
-  ##----------------------------------------------------------------
-
-
-  EPS = 1e-8
-  A = X/pik
-  J = ncol(X)
-
-
-  ##----------------------------------------------------------------
-  ##                Number of non 0-1 inclusion prob               -
-  ##----------------------------------------------------------------
-
-
-
-
-  i <- which(pik > EPS & pik < (1-EPS))
-  i_size = length(i)
-  if(i_size >= (J+1)){
-    i <- i[1:(J+1)]
-    B = A[i,]
-  }else{
-    B = A[i,]
+  if(!(method == "RM" || method == "LM")){
+    stop("You set up the wrong method choose between RM or LP")
   }
 
-  # i <- which(pik > EPS & pik < (1-EPS))[1:(J+1)]
-  # i_size = length(i)
-
-
-
-  ##---------------------------------------------------------------
-  ##                          Main loop                           -
-  ##---------------------------------------------------------------
-
-  while(i_size > 0){
-
-
-    ##-----------------------
-    ##  if redux is desired
-    ##-----------------------
-
-    if(redux == TRUE){
-      # pik_tmp <- pik[i]
-      # tmp <- ReducedMatrix(B)
-      # B_tmp <- tmp$B
-      # pik_tmp[tmp$ind_row]<- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
-      # pik[i] <- pik_tmp
-
-      pik_tmp <- pik[i]
-      tmp <- ReducedMatrix(B)
-      B_tmp <- tmp$B
-
-
-      check <- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
-      if(is.null(check)){
-        break;
-      }else{
-        pik_tmp[tmp$ind_row]<- check
-        pik[i] <- pik_tmp
-      }
-
-
-    }else{
-
-      check <- onestep(B,pik[i],EPS)
-      if(is.null(check)){
-        break;
-      }else{
-        pik[i] <- check
-      }
-
-    }
-
-
-    ##------------
-    ##  update i
-    ##------------
-
-    i <- which(pik > EPS & pik < (1-EPS))
-    i_size = length(i)
-
-
-
-    ##-----------------------------------
-    ##  Depending if we have enough row
-    ##-----------------------------------
-
-    if(i_size >= (J+1)){
-      i <- i[1:(J+1)]
-    }
-    B <-A[i,]
-
+  pikstar <- rffphase(X,pik)
+  if(method == "LP"){
+    pikfin <- landingLP(X,pikstar,pik)
+  }else if(method == "RM"){
+    pikfin <- landingRM(X,pikstar,pik)
   }
 
-
-  return(pik)
+  return(pikfin)
 }
+
+
+
+
+
+
 
 

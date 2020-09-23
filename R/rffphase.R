@@ -98,8 +98,9 @@ rffphase <- function(X, pik, redux = TRUE){
       tmp <- ReducedMatrix(B)
       B_tmp <- tmp$B
 
-
+      print(dim(B_tmp))
       check <- onestep(B_tmp, pik_tmp[tmp$ind_row],EPS)
+
       if(is.null(check)){
         break;
       }else{

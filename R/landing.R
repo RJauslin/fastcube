@@ -51,7 +51,7 @@ landingLP <- function(X,pikstar,pik,Xcat){
   EPS = 1e-11
   N = nrow(X)
   i = which(pikstar > EPS & pikstar < (1 - EPS))
-  Xdev <- disjMatrix(Xcat[i,])
+  Xdev <- disjMatrix(as.matrix(Xcat[i,]))
 
   pikland = pikstar[i]
   Xland <- cbind(A[i,],Xdev)

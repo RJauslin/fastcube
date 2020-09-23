@@ -30,22 +30,36 @@
 #' pik <- inclusionprobastrata(Xcat[,1],rep(1,40))
 #' p <- 30
 #' X <- matrix(rnorm(N*p),ncol = 30)
+#'
+#'
+#' N <- 100
+#' Xcat <-data.frame(cat1 = rep(1:50,each = 2))
+#' Xcat <- as.matrix(Xcat[-2,])
+#' Xcat <- as.matrix(Xcat[-4,])
+#' X <- matrix(rnorm(N),ncol = 1)
+#'
+#' findB(X,Xcat)
+#'
+#'
+#'
 findB <- function(X,
                   Xcat){
+
+
   Xcat <- as.matrix(Xcat)
   X <- as.matrix(X)
   eps <- 1e-9
   N <- nrow(X)
   pInit <- ncol(X)
 
-  Xcat_tmp <- Xcat[1:(pInit+1),]
+  Xcat_tmp <- as.matrix(Xcat[1:(pInit+1),])
   n_all_cat <- sum(ncat(Xcat_tmp))
   n_all_cat_tmp <- 0
 
   while(n_all_cat != n_all_cat_tmp){
     n_all_cat_tmp = n_all_cat
     p =  pInit  + n_all_cat
-    Xcat_tmp <- Xcat[1:(p+1),]
+    Xcat_tmp <- as.matrix(Xcat[1:(p+1),])
     n_all_cat <- sum(ncat(Xcat_tmp))
   }
 

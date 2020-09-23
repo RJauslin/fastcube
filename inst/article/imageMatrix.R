@@ -7,36 +7,31 @@ library(ggplot2)
 library(sampling)
 library(viridis)
 
-N <- 500
+N <- 1000
+pik <- rep(0.5,N)
 
-cat1 <- rep(1:50,each = N/50)
-cat2 <- rep(1:100,each = N/100)
-cat3 <- rep(1:125,each = N/125)
-cat1 <- cat1[sample.int(N,N)]
-cat2 <- cat2[sample.int(N,N)]
-cat3 <- cat3[sample.int(N,N)]
-
-Xcat <-as.matrix(data.frame(cat1 = cat1,
-                            cat2 = cat2,
-                            cat3 = cat3))
-
-
-p <- 30
-X <- matrix(rnorm(N*p),ncol = 30)
-
-
+Xcat <- as.matrix(rep(1:500,each = N/500))
 Xcat_tmp <- disjMatrix(Xcat)
+p <- 5
+X <- cbind(pik,matrix(rnorm(N*p),ncol = p))
+# X <- as.matrix(pik)
+A <- cbind(X,Xcat_tmp)/pik
+
 Xred <- as.matrix(cbind(X,Xcat_tmp))
 
-pik <- rep(100/N,N)
-system.time(s <- ffphase(X,pik,Xcat))
+system.time(s <- balcat(X,Xcat,pik))
+round(s,9)
+# s <- landingLP(X,s,pik,Xcat)
 
-system.time(s <- fcube(X,pik,Xcat))
+t(A)%*%s
 
-system.time(s <- fcube(Xred,pik))
-system.time(s <- BalancedSampling::cube(pik,as.matrix(Xred)))
-system.time(s <- ReducedSamplecube(Xred,pik))
-sum(s)
+t(A)%*%pik
+# system.time(s <- fcube(X,pik,Xcat))
+#
+# system.time(s <- fcube(Xred,pik))
+# system.time(s <- BalancedSampling::cube(pik,as.matrix(Xred)))
+# system.time(s <- ReducedSamplecube(Xred,pik))
+# sum(s)
 
 
 Xred <- as(Xred,"sparseMatrix")
